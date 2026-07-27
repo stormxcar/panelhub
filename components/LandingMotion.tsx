@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Moon, Sun } from "@phosphor-icons/react";
+import { ArrowUp, List, Moon, Sun, X } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
 export function LandingMotion() {
@@ -131,5 +131,39 @@ export function ThemeToggle() {
     >
       {darkMode ? <Sun size={20} weight="bold" /> : <Moon size={20} weight="bold" />}
     </button>
+  );
+}
+
+const mobileLinks = [
+  ["Cấu tạo", "#cau-tao"],
+  ["Dự án", "#du-an"],
+  ["Báo giá", "#bao-gia"],
+  ["FAQ", "#faq"],
+  ["Liên hệ", "#lien-he"]
+];
+
+export function MobileNav() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mobile-nav">
+      <button
+        className="mobile-menu-trigger"
+        type="button"
+        aria-label={isOpen ? "Đóng menu" : "Mở menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu"
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        {isOpen ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
+      </button>
+      {isOpen && (
+        <div className="mobile-menu" id="mobile-menu">
+          {mobileLinks.map(([label, href]) => (
+            <a href={href} key={href} onClick={() => setIsOpen(false)}>{label}</a>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

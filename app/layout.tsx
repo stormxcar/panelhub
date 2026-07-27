@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
+import { site } from "../lib/site";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -11,16 +12,10 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Nhà tiền chế tấm panel | Thi công nhanh",
-  description:
-    "Nhà tiền chế tấm panel trọn gói: tư vấn, thiết kế, thi công nhanh, báo giá rõ theo m2 cho nhà ở, xưởng, kho lạnh.",
-  keywords: [
-    "nhà tiền chế panel",
-    "thi công nhà panel",
-    "tấm panel cách nhiệt",
-    "nhà lắp ghép panel",
-    "báo giá nhà panel"
-  ],
+  metadataBase: new URL(site.url),
+  title: site.seo.title,
+  description: site.seo.description,
+  keywords: site.seo.keywords,
   robots: {
     index: true,
     follow: true
@@ -28,8 +23,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    title: "Nhà tiền chế tấm panel | Thi công nhanh",
-    description: "Tư vấn, thiết kế và thi công nhà panel cho nhà ở, nhà xưởng và kho lạnh."
+    title: site.seo.title,
+    description: site.seo.openGraphDescription
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.seo.title,
+    description: site.seo.openGraphDescription
+  },
+  alternates: {
+    canonical: "/"
   }
 };
 
