@@ -7,9 +7,12 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@sanity/icons": "^3.7.4",
     "next": "^15.3.5",
+    "next-sanity": "^11.6.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sanity": "^4.11.0"
   },
   "devDependencies": {
     "@types/node": "^22.13.14",
