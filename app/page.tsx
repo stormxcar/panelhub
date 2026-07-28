@@ -24,6 +24,7 @@ import { LandingMotion, MobileNav, ScrollTop, ThemeToggle } from "../components/
 import { PortfolioFilter, type PortfolioProject } from "../components/PortfolioFilter";
 import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
+import { getManagedHome } from "../lib/sanity";
 
 const services = [
   ["Mẫu nhà paned dân dụng", "Nhiều kiểu dáng mái và phương án mặt tiền để tham khảo trước khi thiết kế.", "Nhà ở · Nhà cấp 4"],
@@ -81,8 +82,14 @@ function SectionCta({ text }: { text: string }) {
   return <div className="section-cta"><p>{text}</p><a className="secondary-btn tooltip-top" href="#lien-he" data-tooltip="Chuyển đến form nhận báo giá">Nhận báo giá miễn phí <ArrowRight size={17} weight="bold" /></a></div>;
 }
 
-export default function Home() {
-  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
+export default async function Home() {
+  const managedHome = await getManagedHome();
+  const managedServices = managedHome?.services?.length ? managedHome.services.map((item) => [item.title, item.description, "PANED"]) : services;
+  const managedProcessSteps = managedHome?.processSteps?.length ? managedHome.processSteps.map((item) => [item.title, item.description]) : processSteps;
+  const managedFaqs = managedHome?.faqs?.length ? managedHome.faqs.map((item) => [item.question, item.answer]) : faqs;
+  const managedVideos = managedHome?.videos?.length ? managedHome.videos : site.videos;
+  const managedPricing = managedHome?.pricing?.length ? managedHome.pricing.map((item) => [item.name, item.price, item.note]) : [["Gói cơ bản", "Từ 1.650.000đ/m2", "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn"], ["Gói cách nhiệt tốt", "Từ 2.150.000đ/m2", "Panel PU dày hơn, xử lý mối nối kỹ hơn"], ["Gói nhà xưởng", "Theo bản vẽ", "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu"]];
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: managedFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
   const localBusinessSchema = { "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, url: site.url, description: site.seo.description, telephone: site.contact.phoneDisplay, email: site.contact.email, address: { "@type": "PostalAddress", streetAddress: site.company.address, addressLocality: "Phan Rang", addressRegion: "Khánh Hòa", addressCountry: "VN" }, areaServed: site.location.areas };
   const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Trang chủ", item: site.url }, { "@type": "ListItem", position: 2, name: "Nhà tiền chế panel", item: site.url }] };
 
@@ -103,7 +110,7 @@ export default function Home() {
         <div className="nav-actions"><a className="nav-cta nav-tooltip" href={`tel:${site.contact.phone}`} data-tooltip="Gọi để nhận báo giá sơ bộ">Nhận báo giá</a><ThemeToggle /><MobileNav /></div>
       </nav>
 
-      <HeroGallery slides={site.images.heroGallery} phone={site.contact.phone} phoneDisplay={site.contact.phoneDisplay} />
+      <HeroGallery slides={site.images.heroGallery} phone={site.contact.phone} phoneDisplay={site.contact.phoneDisplay} title={managedHome?.heroTitle} description={managedHome?.heroDescription} />
 
       <section className="stats-strip" aria-label="Số liệu năng lực"><div><strong>200+</strong><span>Công trình đã triển khai</span></div><div><strong>10+</strong><span>Năm kinh nghiệm</span></div><div><strong>98%</strong><span>Khách hàng hài lòng</span></div><div><strong>24h</strong><span>Phản hồi báo giá sơ bộ</span></div></section>
 
@@ -116,7 +123,7 @@ export default function Home() {
 
       <section className="section comparison reveal"><div className="section-stack"><p className="kicker">Giải pháp xây nhanh</p><h2>Nhà tiền chế panel giúp kiểm soát tiến độ và chi phí từ đầu</h2></div><div className="compare-grid">{[["Thời gian", "Gia công khung tại xưởng và lắp panel tại công trình giúp rút ngắn thời gian chờ."], ["Chi phí", "Dễ bóc tách vật tư, minh bạch báo giá theo diện tích và mức hoàn thiện."], ["Độ bền", "Kết cấu khung thép kết hợp lõi panel phù hợp nhu cầu nhiệt, ồn, cháy."]].map(([title, text]) => <article className="compare-item" key={title}><CheckCircle size={28} weight="fill" /><h3>{title}</h3><p>{text}</p></article>)}</div></section>
 
-      <section className="section services-section"><div className="section-stack reveal"><p className="kicker">Dịch vụ trọn gói</p><h2>Giải pháp panel theo đúng mô hình bạn đang vận hành</h2></div><div className="services-bento">{services.map(([title, description, tags], index) => <article className="service-card reveal" key={title}><Image src={site.images.services[index]} alt={title} fill sizes="(max-width: 768px) 82vw, 33vw" /><div><span>{tags}</span><h3>{title}</h3><p>{description}</p><a href="#lien-he">Tìm hiểu thêm <ArrowRight size={16} weight="bold" /></a></div></article>)}</div><SectionCta text="Chưa chắc loại panel nào phù hợp? Gửi nhu cầu để nhận phương án sơ bộ." /></section>
+      <section className="section services-section"><div className="section-stack reveal"><p className="kicker">Dịch vụ trọn gói</p><h2>Giải pháp panel theo đúng mô hình bạn đang vận hành</h2></div><div className="services-bento">{managedServices.map(([title, description, tags], index) => <article className="service-card reveal" key={title}><Image src={site.images.services[index % site.images.services.length]} alt={title} fill sizes="(max-width: 768px) 82vw, 33vw" /><div><span>{tags}</span><h3>{title}</h3><p>{description}</p><a href="#lien-he">Tìm hiểu thêm <ArrowRight size={16} weight="bold" /></a></div></article>)}</div><SectionCta text="Chưa chắc loại panel nào phù hợp? Gửi nhu cầu để nhận phương án sơ bộ." /></section>
 
       <section id="cau-tao" className="section anatomy"><div className="anatomy-visual reveal"><Image src={site.images.anatomy} alt="Cấu tạo tấm panel cách nhiệt" fill sizes="(max-width: 900px) 100vw, 46vw" /></div><div className="anatomy-copy reveal"><p className="kicker">Tôn, lõi, tôn</p><h2>Cấu tạo tấm panel cách nhiệt cho công trình chắc và sạch</h2><p>Tấm panel gồm hai lớp tôn mạ màu kẹp lõi cách nhiệt. Lựa chọn lõi panel quyết định mức giữ nhiệt, chống cháy, cách âm và ngân sách.</p><div className="panel-types"><article><h3>Panel PU</h3><p>Giữ nhiệt tốt cho kho lạnh và không gian cần ổn định nhiệt.</p></article><article><h3>Panel EPS</h3><p>Chi phí hợp lý cho nhà ở, văn phòng và công trình phổ thông.</p></article><article><h3>Panel Rockwool</h3><p>Ưu tiên chống cháy, cách âm cho xưởng và khu kỹ thuật.</p></article></div></div></section>
 

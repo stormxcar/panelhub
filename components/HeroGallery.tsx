@@ -14,9 +14,11 @@ type HeroGalleryProps = {
   slides: HeroSlide[];
   phone: string;
   phoneDisplay: string;
+  title?: string;
+  description?: string;
 };
 
-export function HeroGallery({ slides, phone, phoneDisplay }: HeroGalleryProps) {
+export function HeroGallery({ slides, phone, phoneDisplay, title = "Nhà tiền chế tấm panel", description = "Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế." }: HeroGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeSlide = slides[activeIndex];
 
@@ -28,8 +30,8 @@ export function HeroGallery({ slides, phone, phoneDisplay }: HeroGalleryProps) {
       <div className="hero-showcase-content">
         <div className="hero-showcase-copy">
           <p className="hero-showcase-brand">PANED Ninh Thuận</p>
-          <h1>Nhà tiền chế <span>tấm panel</span></h1>
-          <p className="hero-showcase-tagline">Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế.</p>
+          <h1>{title}</h1>
+          <p className="hero-showcase-tagline">{description}</p>
           <ul className="hero-showcase-benefits">
             <li><CheckCircle size={20} weight="fill" /> Thi công nhanh chóng</li>
             <li><CheckCircle size={20} weight="fill" /> Cách nhiệt, cách âm tốt</li>
