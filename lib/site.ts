@@ -1,55 +1,74 @@
 export const site = {
-  name: "PanelBuild",
+  name: "PANED",
+  branding: {
+    logoText: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_text_i7kfp4.png",
+    logoMark: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_no_text_oiboay.png",
+    logoAlt: "PANED Ninh Thuận"
+  },
   url: "https://panelhub-rouge.vercel.app",
   contact: {
-    phone: "0900000000",
-    phoneDisplay: "0900 000 000",
-    email: "baogia@example.com",
-    zaloUrl: "https://zalo.me/0900000000",
+    phone: "0946657257",
+    phoneDisplay: "0946 657 257",
+    email: "phamhoangbaoanh87@gmail.com",
+    zaloUrl: "https://zalo.me/0946657257",
     messengerUrl: "https://m.me/your-page"
   },
   company: {
     taxCode: "0123456789",
-    address: "123 Đường Công Nghiệp, KCN Sóng Thần, Bình Dương",
+    address: "Phường Phan Rang, tỉnh Khánh Hòa",
     workingHours: "Thứ 2 - Thứ 7: 7:30 - 17:30"
   },
   social: {
-    facebook: "https://facebook.com/panelbuild",
-    youtube: "https://youtube.com/@panelbuild",
-    tiktok: "https://tiktok.com/@panelbuild"
+    facebook: "https://facebook.com/paned",
+    youtube: "https://youtube.com/@paned",
+    tiktok: "https://tiktok.com/@paned"
   },
   images: {
-    hero: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=85",
-    heroDetailOne: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=85",
-    heroDetailTwo: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=85",
-    anatomy: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85",
-    processFeature: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=85",
+    hero: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220656/panelhub/1785218999987_7856060850081443329_7856060850081443329_8c1f360a38ea0b570e94b010932b9e04_mokzsn.jpg",
+    heroDetailOne: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220655/panelhub/1785218999860_7856060850081443329_7856060850081443329_11733a1d5e67c093f88347c884cc708d_smwdnb.jpg",
+    heroDetailTwo: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220654/panelhub/1785218999813_7856060850081443329_7856060850081443329_bdd6db19a7f4c690e1980aac400a09c5_iqsd4b.jpg",
+    heroGallery: [
+      { src: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220656/panelhub/1785218999987_7856060850081443329_7856060850081443329_8c1f360a38ea0b570e94b010932b9e04_mokzsn.jpg", alt: "Nhà tiền chế tấm panel đã hoàn thiện", label: "Nhà hoàn thiện" },
+      { src: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220655/panelhub/1785218999860_7856060850081443329_7856060850081443329_11733a1d5e67c093f88347c884cc708d_smwdnb.jpg", alt: "Khung thép nhà tiền chế đang lắp dựng", label: "Lắp khung thép" },
+      { src: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220652/panelhub/1785218999851_7856060850081443329_7856060850081443329_b4f43c3f4eae9fa17af6f94748f3e901_frw0sh.jpg", alt: "Công nhân lắp đặt vách tấm panel", label: "Lắp tấm panel" },
+      { src: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220651/panelhub/1785218999933_7856060850081443329_7856060850081443329_19b5b30fad125f119d0d546ff1146f08_jsodvw.jpg", alt: "Nhà tiền chế và không gian nội thất hoàn thiện", label: "Không gian hoàn thiện" }
+    ],
+    anatomy: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220652/panelhub/1785218999851_7856060850081443329_7856060850081443329_b4f43c3f4eae9fa17af6f94748f3e901_frw0sh.jpg",
+    processFeature: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220660/panelhub/1785218999995_7856060850081443329_7856060850081443329_5354f22394ff58ecef8e3c2f8667db2b_f7btqr.jpg",
     services: [
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1000&q=85"
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220664/panelhub/1785218999979_7856060850081443329_7856060850081443329_96881a0f9f0fef85aff738988950bf2e_eneobw.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220655/panelhub/1785218999860_7856060850081443329_7856060850081443329_11733a1d5e67c093f88347c884cc708d_smwdnb.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220656/panelhub/1785218999987_7856060850081443329_7856060850081443329_8c1f360a38ea0b570e94b010932b9e04_mokzsn.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220652/panelhub/1785218999851_7856060850081443329_7856060850081443329_b4f43c3f4eae9fa17af6f94748f3e901_frw0sh.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220653/panelhub/1785218999971_7856060850081443329_7856060850081443329_0523e9897b0d7e91f58f3af4910e215f_kniv8e.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220651/panelhub/1785218999933_7856060850081443329_7856060850081443329_19b5b30fad125f119d0d546ff1146f08_jsodvw.jpg"
     ],
     process: [
-      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=85",
-      "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=85"
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220655/panelhub/1785218999860_7856060850081443329_7856060850081443329_11733a1d5e67c093f88347c884cc708d_smwdnb.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220652/panelhub/1785218999851_7856060850081443329_7856060850081443329_b4f43c3f4eae9fa17af6f94748f3e901_frw0sh.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220653/panelhub/1785218999971_7856060850081443329_7856060850081443329_0523e9897b0d7e91f58f3af4910e215f_kniv8e.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220660/panelhub/1785218999995_7856060850081443329_7856060850081443329_5354f22394ff58ecef8e3c2f8667db2b_f7btqr.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220654/panelhub/1785218999813_7856060850081443329_7856060850081443329_bdd6db19a7f4c690e1980aac400a09c5_iqsd4b.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220651/panelhub/1785218999933_7856060850081443329_7856060850081443329_19b5b30fad125f119d0d546ff1146f08_jsodvw.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220656/panelhub/1785218999987_7856060850081443329_7856060850081443329_8c1f360a38ea0b570e94b010932b9e04_mokzsn.jpg"
     ],
     projects: [
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1100&q=85",
-      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1100&q=85",
-      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1100&q=85",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1100&q=85",
-      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1100&q=85",
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1100&q=85"
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220664/panelhub/1785218999979_7856060850081443329_7856060850081443329_96881a0f9f0fef85aff738988950bf2e_eneobw.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220655/panelhub/1785218999860_7856060850081443329_7856060850081443329_11733a1d5e67c093f88347c884cc708d_smwdnb.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220656/panelhub/1785218999987_7856060850081443329_7856060850081443329_8c1f360a38ea0b570e94b010932b9e04_mokzsn.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220652/panelhub/1785218999851_7856060850081443329_7856060850081443329_b4f43c3f4eae9fa17af6f94748f3e901_frw0sh.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220654/panelhub/1785218999813_7856060850081443329_7856060850081443329_bdd6db19a7f4c690e1980aac400a09c5_iqsd4b.jpg",
+      "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785220651/panelhub/1785218999933_7856060850081443329_7856060850081443329_19b5b30fad125f119d0d546ff1146f08_jsodvw.jpg"
     ]
   },
+  videos: [
+    { title: "Công trình nhà tiền chế panel", description: "Góc quay thực tế tại công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220803/panelhub/1785219000011_7856060850081443329_7856060850081443329_ewuxnf.mp4" },
+    { title: "Không gian hoàn thiện", description: "Hình ảnh thực tế nhà panel", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220754/panelhub/1785218999925_7856060850081443329_7856060850081443329_hxbm46.mp4" },
+    { title: "Thi công và lắp dựng", description: "Quy trình triển khai tại công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220716/panelhub/1785218999920_7856060850081443329_7856060850081443329_yusqqm.mp4" },
+    { title: "Giải pháp nhà panel", description: "Tham khảo chi tiết công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220711/panelhub/1785218999810_7856060850081443329_7856060850081443329_nqrqfp.mp4" },
+    { title: "Góc nhìn công trình", description: "Không gian sau khi hoàn thiện", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220660/panelhub/1785218999967_7856060850081443329_7856060850081443329_a3gc3f.mp4" },
+    { title: "Nhà tiền chế thực tế", description: "Video cập nhật từ công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220688/panelhub/1785218999964_7856060850081443329_7856060850081443329_kk5k41.mp4" }
+  ],
   location: {
     mapUrl: "https://maps.google.com",
     areas: ["TP.HCM", "Bình Dương", "Đồng Nai"],

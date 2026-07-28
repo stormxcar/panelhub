@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 
 export type PortfolioProject = {
   title: string;
-  category: "Nhà ở" | "Nhà xưởng" | "Kho lạnh" | "Văn phòng";
+  category: "Nhà ở" | "Thi công" | "Hoàn thiện" | "Mẫu thiết kế";
   description: string;
   image: string;
   area: string;
@@ -14,7 +14,7 @@ export type PortfolioProject = {
   location: string;
 };
 
-const filters = ["Tất cả", "Nhà ở", "Nhà xưởng", "Kho lạnh", "Văn phòng"] as const;
+const filters = ["Tất cả", "Nhà ở", "Thi công", "Hoàn thiện", "Mẫu thiết kế"] as const;
 
 export function PortfolioFilter({ projects }: { projects: PortfolioProject[] }) {
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("Tất cả");

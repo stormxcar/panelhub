@@ -31,6 +31,10 @@ export const metadata: Metadata = {
     title: site.seo.title,
     description: site.seo.openGraphDescription
   },
+  icons: {
+    icon: [{ url: site.branding.logoMark, type: "image/png" }],
+    apple: [{ url: site.branding.logoMark, type: "image/png" }]
+  },
   alternates: {
     canonical: "/"
   }

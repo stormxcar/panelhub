@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <main className="legal-page">
-      <header className="legal-header"><a href="/" className="brand">{site.name}</a><a href="/" className="secondary-btn">Về trang chủ</a></header>
+      <header className="legal-header"><a href="/" className="brand brand-logo" aria-label="PANED Ninh Thuận - Về trang chủ"><span className="brand-wordmark"><img src={site.branding.logoText} alt={site.branding.logoAlt} /></span></a><a href="/" className="secondary-btn">Về trang chủ</a></header>
       <article className="legal-content">
         <p className="kicker">Thông tin pháp lý</p>
         <h1>Điều khoản sử dụng</h1>

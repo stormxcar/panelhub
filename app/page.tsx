@@ -4,12 +4,12 @@ import {
   Buildings,
   Check,
   CheckCircle,
-  ChatCircleDots,
   EnvelopeSimple,
   FacebookLogo,
   Factory,
   Gauge,
   HouseLine,
+  MessengerLogo,
   Phone,
   Star,
   ThermometerCold,
@@ -19,17 +19,19 @@ import {
   YoutubeLogo
 } from "@phosphor-icons/react/dist/ssr";
 import { CostEstimator } from "../components/CostEstimator";
+import { HeroGallery } from "../components/HeroGallery";
 import { LandingMotion, MobileNav, ScrollTop, ThemeToggle } from "../components/LandingMotion";
 import { PortfolioFilter, type PortfolioProject } from "../components/PortfolioFilter";
+import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
 
 const services = [
-  ["Nhà panel dân dụng", "Nhà ở, homestay gọn nhẹ, hoàn thiện nhanh theo nhu cầu sử dụng.", "Nhà ở · Homestay"],
-  ["Nhà xưởng tiền chế", "Kết cấu khẩu độ lớn, dễ mở rộng và kiểm soát tiến độ lắp dựng.", "Sản xuất · Kho bãi"],
-  ["Văn phòng panel", "Không gian làm việc sạch, linh hoạt cho công trình tạm hoặc cố định.", "Văn phòng · Nhà mẫu"],
-  ["Kho lạnh panel PU", "Giải pháp giữ nhiệt và kín khí cho thực phẩm, dược phẩm, logistics.", "Thực phẩm · Dược phẩm"],
-  ["Nhà điều hành", "Module thi công nhanh, thuận tiện giám sát và vận hành công trường.", "Công trường · Dự án"],
-  ["Cải tạo mở rộng", "Bổ sung không gian sử dụng mà giảm tối đa ảnh hưởng đến vận hành hiện hữu.", "Mở rộng · Cải tạo"]
+  ["Mẫu nhà paned dân dụng", "Nhiều kiểu dáng mái và phương án mặt tiền để tham khảo trước khi thiết kế.", "Nhà ở · Nhà cấp 4"],
+  ["Khung thép tiền chế", "Lắp dựng khung theo mặt bằng, khẩu độ và nhu cầu sử dụng thực tế.", "Kết cấu · Thi công"],
+  ["Nhà paned hoàn thiện", "Không gian sạch, gọn và sẵn sàng đưa vào sử dụng sau khi bàn giao.", "Nhà ở · Hoàn thiện"],
+  ["Thi công tấm panel", "Lắp đặt vách, mái và xử lý liên kết theo trình tự rõ ràng tại công trình.", "Panel · Lắp dựng"],
+  ["Cải tạo, mở rộng", "Bổ sung không gian sử dụng với tiến độ thi công gọn và dễ kiểm soát.", "Mở rộng · Cải tạo"],
+  ["Không gian nhà paned", "Tham khảo mặt tiền, nội thất và bố cục phù hợp nhu cầu ở thực tế.", "Nhà ở · Tham khảo"]
 ];
 
 const processSteps = [
@@ -43,30 +45,30 @@ const processSteps = [
 ];
 
 const projects: PortfolioProject[] = [
-  { title: "Nhà ở panel 120m²", category: "Nhà ở", description: "Khung thép và panel EPS hoàn thiện gọn cho gia đình trẻ.", image: site.images.projects[0], area: "120 m²", duration: "18 ngày", material: "EPS", location: "Bình Dương" },
-  { title: "Homestay ven đô", category: "Nhà ở", description: "Module lưu trú mở rộng linh hoạt, tối ưu tiến độ khai thác.", image: site.images.projects[1], area: "180 m²", duration: "25 ngày", material: "EPS", location: "Đồng Nai" },
-  { title: "Nhà xưởng 620m²", category: "Nhà xưởng", description: "Khung thép tiền chế, mái panel Rockwool cho xưởng sản xuất.", image: site.images.projects[2], area: "620 m²", duration: "38 ngày", material: "Rockwool", location: "TP.HCM" },
-  { title: "Xưởng gia công mở rộng", category: "Nhà xưởng", description: "Không gian sản xuất mở rộng theo nhịp kết cấu hiện hữu.", image: site.images.projects[3], area: "450 m²", duration: "30 ngày", material: "EPS", location: "Long An" },
-  { title: "Kho lạnh thực phẩm", category: "Kho lạnh", description: "Panel PU, xử lý kín khít mối nối cho khu lưu trữ nhiệt độ ổn định.", image: site.images.projects[4], area: "240 m²", duration: "21 ngày", material: "PU", location: "Bình Dương" },
-  { title: "Văn phòng công trình", category: "Văn phòng", description: "Không gian điều hành lắp nhanh, dễ di dời khi thay đổi mặt bằng.", image: site.images.projects[5], area: "96 m²", duration: "12 ngày", material: "EPS", location: "Đồng Nai" }
+  { title: "Mẫu nhà paned cấp 4", category: "Mẫu thiết kế", description: "Tổng hợp phương án mái và mặt tiền để tham khảo trước khi thiết kế.", image: site.images.projects[0], area: "12 mẫu", duration: "Tham khảo", material: "Đa dạng", location: "PANED" },
+  { title: "Lắp dựng khung thép", category: "Thi công", description: "Khung thép được lắp dựng trực tiếp trên nền đã chuẩn bị.", image: site.images.projects[1], area: "Theo mặt bằng", duration: "Đang thi công", material: "Khung thép", location: "Công trình" },
+  { title: "Nhà paned hoàn thiện", category: "Hoàn thiện", description: "Mặt tiền nhà ở hoàn thiện, có hiên che và không gian sân vườn.", image: site.images.projects[2], area: "Nhà ở", duration: "Hoàn thiện", material: "Panel", location: "Công trình" },
+  { title: "Lắp đặt vách panel", category: "Thi công", description: "Các bước lắp vách và liên kết tấm panel tại công trình thực tế.", image: site.images.projects[3], area: "Theo thiết kế", duration: "Lắp dựng", material: "Panel EPS", location: "Công trình" },
+  { title: "Nhà paned mái thái", category: "Nhà ở", description: "Mẫu nhà nhỏ gọn, hoàn thiện mặt tiền và cửa kính lấy sáng.", image: site.images.projects[4], area: "Nhà ở", duration: "Hoàn thiện", material: "Panel", location: "Công trình" },
+  { title: "Không gian nhà paned", category: "Hoàn thiện", description: "Tham khảo mặt tiền, bố cục nội thất và phương án hiên che.", image: site.images.projects[5], area: "Nhà ở", duration: "Hoàn thiện", material: "Panel", location: "Công trình" }
 ];
 
 const faqs = [
-  ["Nhà tiền chế panel dùng được bao lâu?", "Tuổi thọ phụ thuộc khung thép, loại panel và bảo trì. Công trình thi công đúng kỹ thuật có thể vận hành bền trong nhiều năm."],
-  ["Giá thi công nhà panel/m2 tính thế nào?", "Báo giá dựa trên diện tích, loại lõi panel, chiều dày, kết cấu khung, nền móng và mức hoàn thiện."],
-  ["Có tháo dỡ và di dời được không?", "Có. Nhà lắp ghép panel có thể tháo theo module và phù hợp nhu cầu thay đổi mặt bằng."],
-  ["Panel chống nóng và chống ồn ra sao?", "Panel PU, EPS và Rockwool đều cải thiện cách nhiệt. Rockwool phù hợp hơn khi ưu tiên chống cháy và cách âm."],
-  ["Thời gian thi công thường mất bao lâu?", "Công trình nhỏ có thể hoàn thành trong vài tuần sau khi chốt thiết kế, vật tư và mặt bằng."],
-  ["Panel có chống cháy không?", "Mức chống cháy tùy loại lõi. Rockwool thường được lựa chọn cho nhu cầu ưu tiên phòng cháy."],
-  ["Thi công được ở tỉnh xa không?", "Có. Đội ngũ tiếp nhận khảo sát và lên phương án vận chuyển cho các tỉnh lân cận hoặc theo từng dự án."],
-  ["Có bảo hành sau khi bàn giao không?", "Có. Phạm vi và thời hạn bảo hành được xác nhận trong báo giá và hợp đồng thi công."],
-  ["Nền móng cần chuẩn bị như thế nào?", "Mặt bằng cần được khảo sát để xác định cao độ, kết cấu nền và phương án liên kết khung thép phù hợp."],
-  ["Panel EPS và PU khác nhau thế nào?", "EPS có chi phí hợp lý, còn PU giữ nhiệt tốt hơn và thường dùng cho kho lạnh hoặc không gian yêu cầu nhiệt ổn định."],
-  ["Có thể tự thiết kế rồi thuê thi công không?", "Có. Chúng tôi có thể phối hợp với hồ sơ sẵn có và rà soát lại giải pháp kết cấu, panel, phụ kiện trước khi triển khai."],
-  ["Nhà panel có chịu được bão không?", "Khả năng chịu gió phụ thuộc thiết kế khung, liên kết, tải trọng và vị trí công trình. Các yếu tố này cần được tính trong hồ sơ kỹ thuật."],
-  ["Có hỗ trợ vay vốn không?", "Hiện chưa có gói vay trực tiếp. Đội ngũ có thể hỗ trợ chuẩn bị thông tin báo giá cho hồ sơ tài chính khi cần."],
-  ["Quy trình thanh toán như thế nào?", "Tiến độ thanh toán được chia theo các mốc khảo sát, gia công, lắp dựng và nghiệm thu theo thỏa thuận hợp đồng."],
-  ["Có tư vấn và khảo sát miễn phí không?", "Chúng tôi tư vấn sơ bộ miễn phí. Khảo sát thực tế được xác nhận theo khu vực và quy mô công trình." ]
+  ["Nhà tiền chế panel dùng được bao lâu?", "Tuổi thọ phụ thuộc vào thiết kế khung thép, loại lõi panel, điều kiện sử dụng và việc bảo trì định kỳ. Khi được thi công đúng kỹ thuật, xử lý mối nối tốt và kiểm tra mái/vách theo khuyến nghị, công trình có thể vận hành ổn định trong nhiều năm."],
+  ["Giá thi công nhà panel/m2 tính thế nào?", "Đơn giá m² chỉ là mức tham khảo. Báo giá thực tế cần tính diện tích, loại lõi panel và độ dày, khung thép, nền móng, hệ cửa, điện nước, vận chuyển và mức hoàn thiện; vì vậy đội ngũ nên khảo sát hoặc nhận bản vẽ trước khi chốt ngân sách."],
+  ["Có tháo dỡ và di dời được không?", "Có, nhiều hạng mục nhà lắp ghép có thể tháo theo module để di chuyển hoặc mở rộng. Khả năng tái sử dụng sẽ phụ thuộc vào thiết kế liên kết ban đầu, tình trạng vật tư và phương án nền móng tại vị trí mới."],
+  ["Panel chống nóng và chống ồn ra sao?", "Panel giúp cải thiện khả năng cách nhiệt đáng kể so với mái/vách tôn đơn lớp. EPS là lựa chọn kinh tế, PU phù hợp khi cần giữ nhiệt tốt hơn, còn Rockwool thường được cân nhắc khi công trình ưu tiên chống cháy và cách âm; hiệu quả cuối cùng còn phụ thuộc độ dày và cách xử lý mối nối."],
+  ["Thời gian thi công thường mất bao lâu?", "Công trình nhỏ có thể hoàn thành trong vài tuần sau khi chốt thiết kế, vật tư và mặt bằng. Tiến độ sẽ thay đổi theo diện tích, nền móng, thời tiết, điều kiện vận chuyển và các hạng mục hoàn thiện như điện nước, cửa, trần hoặc nội thất."],
+  ["Panel có chống cháy không?", "Mức độ đáp ứng yêu cầu cháy phụ thuộc vào loại lõi panel, hệ kết cấu, vật liệu hoàn thiện và quy định áp dụng cho từng công trình. Rockwool thường được lựa chọn cho nhu cầu ưu tiên chống cháy; với dự án có yêu cầu PCCC, cần đối chiếu hồ sơ kỹ thuật và quy chuẩn cụ thể trước khi triển khai."],
+  ["Thi công được ở tỉnh xa không?", "Có thể triển khai liên tỉnh sau khi kiểm tra đường vận chuyển, địa điểm tập kết vật tư và điều kiện thi công tại chỗ. Đội ngũ sẽ tư vấn phương án khảo sát, lịch giao hàng và chi phí di chuyển minh bạch theo từng địa điểm."],
+  ["Có bảo hành sau khi bàn giao không?", "Có. Phạm vi bảo hành nên được nêu rõ trong báo giá và hợp đồng, bao gồm kết cấu, vật tư và các hạng mục hoàn thiện áp dụng. Khi bàn giao, khách hàng nên lưu lại hồ sơ nghiệm thu, hướng dẫn sử dụng và thông tin liên hệ để được hỗ trợ nhanh khi cần."],
+  ["Nền móng cần chuẩn bị như thế nào?", "Mặt bằng cần được khảo sát để xác định cao độ, khả năng chịu tải, thoát nước và vị trí liên kết khung thép. Tùy công trình, nền có thể là bê tông, móng đơn hoặc giải pháp gia cố khác; không nên chốt phương án chỉ dựa trên diện tích mà chưa xem địa hình thực tế."],
+  ["Panel EPS và PU khác nhau thế nào?", "EPS thường có chi phí hợp lý, phù hợp nhiều công trình dân dụng và không gian phổ thông. PU có khả năng giữ nhiệt tốt hơn, nên hay được dùng cho khu vực yêu cầu ổn định nhiệt; lựa chọn cuối cùng cần cân đối công năng, độ dày panel và tổng mức đầu tư."],
+  ["Có thể tự thiết kế rồi thuê thi công không?", "Có. Đội ngũ có thể tiếp nhận bản vẽ sẵn có, rà soát khẩu độ khung, giải pháp panel, mối nối và phương án thi công trước khi báo giá. Nếu cần điều chỉnh, các thay đổi nên được thống nhất trên bản vẽ để hạn chế phát sinh ở công trường."],
+  ["Nhà panel có chịu được bão không?", "Khả năng chịu gió không nằm ở panel đơn lẻ mà phụ thuộc hệ khung, liên kết, neo móng, tải trọng mái và vị trí xây dựng. Với khu vực có gió mạnh hoặc gần biển, cần tính toán giải pháp kết cấu phù hợp thay vì dùng một cấu hình chung cho mọi công trình."],
+  ["Có hỗ trợ vay vốn không?", "Hiện chưa có gói vay trực tiếp được công bố trên website. Khi cần, đội ngũ có thể hỗ trợ chuẩn bị báo giá và thông tin hạng mục để khách hàng làm việc với đơn vị tài chính của mình; điều kiện phê duyệt sẽ do đơn vị cho vay quyết định."],
+  ["Quy trình thanh toán như thế nào?", "Tiến độ thanh toán thường được chia theo các mốc khảo sát/chốt thiết kế, gia công vật tư, lắp dựng và nghiệm thu. Tỷ lệ, thời điểm thanh toán và điều kiện bàn giao cần được ghi rõ trong hợp đồng để hai bên cùng theo dõi minh bạch."],
+  ["Có tư vấn và khảo sát miễn phí không?", "Tư vấn sơ bộ qua điện thoại hoặc Zalo được hỗ trợ miễn phí để xác định nhu cầu và mức đầu tư dự kiến. Việc khảo sát thực tế sẽ được xác nhận theo khu vực, quy mô công trình và lịch triển khai; hãy gửi diện tích, vị trí và mục đích sử dụng để nhận hướng dẫn phù hợp." ]
 ];
 
 const testimonials = [
@@ -81,41 +83,27 @@ function SectionCta({ text }: { text: string }) {
 
 export default function Home() {
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
-  const localBusinessSchema = { "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, url: site.url, description: site.seo.description, telephone: site.contact.phoneDisplay, email: site.contact.email, address: { "@type": "PostalAddress", streetAddress: site.company.address, addressLocality: "Bình Dương", addressCountry: "VN" }, areaServed: site.location.areas };
+  const localBusinessSchema = { "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, url: site.url, description: site.seo.description, telephone: site.contact.phoneDisplay, email: site.contact.email, address: { "@type": "PostalAddress", streetAddress: site.company.address, addressLocality: "Phan Rang", addressRegion: "Khánh Hòa", addressCountry: "VN" }, areaServed: site.location.areas };
   const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Trang chủ", item: site.url }, { "@type": "ListItem", position: 2, name: "Nhà tiền chế panel", item: site.url }] };
 
   return (
     <main>
       <LandingMotion />
       <aside className="contact-rail" aria-label="Liên hệ nhanh">
-        <a className="has-tooltip" href={`tel:${site.contact.phone}`} aria-label="Gọi tư vấn" data-tooltip="Gọi tư vấn"><Phone size={22} weight="fill" /></a>
-        <a className="has-tooltip" href={site.contact.zaloUrl} target="_blank" rel="noreferrer" aria-label="Liên hệ qua Zalo" data-tooltip="Liên hệ Zalo"><ChatCircleDots size={22} weight="fill" /></a>
-        <a className="has-tooltip" href={site.contact.messengerUrl} target="_blank" rel="noreferrer" aria-label="Liên hệ qua Messenger" data-tooltip="Liên hệ Messenger"><ChatCircleDots size={22} weight="duotone" /></a>
-        <a className="has-tooltip" href={`mailto:${site.contact.email}`} aria-label="Gửi email báo giá" data-tooltip="Gửi email báo giá"><EnvelopeSimple size={22} weight="fill" /></a>
+        <a className="has-tooltip cta-call" href={`tel:${site.contact.phone}`} aria-label="Gọi tư vấn" data-tooltip="Gọi tư vấn"><Phone size={22} weight="fill" /></a>
+        <a className="has-tooltip cta-zalo" href={site.contact.zaloUrl} target="_blank" rel="noreferrer" aria-label="Liên hệ qua Zalo" data-tooltip="Liên hệ Zalo"><span className="zalo-icon" aria-hidden="true">Zalo</span></a>
+        <a className="has-tooltip cta-messenger" href={site.contact.messengerUrl} target="_blank" rel="noreferrer" aria-label="Liên hệ qua Messenger" data-tooltip="Liên hệ Messenger"><MessengerLogo size={22} weight="fill" /></a>
+        <a className="has-tooltip cta-email" href={`mailto:${site.contact.email}`} aria-label="Gửi email báo giá" data-tooltip="Gửi email báo giá"><EnvelopeSimple size={22} weight="fill" /></a>
         <ScrollTop />
       </aside>
 
       <nav className="site-nav" aria-label="Điều hướng chính">
-        <a className="brand" href="#hero">{site.name}</a>
-        <div className="nav-links"><a className="nav-tooltip" href="#cau-tao" data-tooltip="Xem các loại panel và cấu tạo"><span>Cấu tạo</span></a><a className="nav-tooltip" href="#du-an" data-tooltip="Xem công trình đã triển khai"><span>Dự án</span></a><a className="nav-tooltip" href="#bao-gia" data-tooltip="Xem mức giá tham khảo"><span>Báo giá</span></a><a className="nav-tooltip" href="#faq" data-tooltip="Xem câu hỏi thường gặp"><span>FAQ</span></a></div>
+        <a className="brand brand-logo" href="#hero" aria-label="PANED Ninh Thuận - Về đầu trang"><span className="brand-wordmark"><img src={site.branding.logoText} alt={site.branding.logoAlt} /></span></a>
+        <div className="nav-links"><a className="nav-tooltip" href="#cau-tao" data-nav-target="cau-tao" data-tooltip="Xem các loại panel và cấu tạo"><span>Cấu tạo</span></a><a className="nav-tooltip" href="#du-an" data-nav-target="du-an" data-tooltip="Xem công trình đã triển khai"><span>Dự án</span></a><a className="nav-tooltip" href="#bao-gia" data-nav-target="bao-gia" data-tooltip="Xem mức giá tham khảo"><span>Báo giá</span></a><a className="nav-tooltip" href="#faq" data-nav-target="faq" data-tooltip="Xem câu hỏi thường gặp"><span>FAQ</span></a></div>
         <div className="nav-actions"><a className="nav-cta nav-tooltip" href={`tel:${site.contact.phone}`} data-tooltip="Gọi để nhận báo giá sơ bộ">Nhận báo giá</a><ThemeToggle /><MobileNav /></div>
       </nav>
 
-      <section id="hero" className="hero">
-        <div className="hero-copy reveal">
-          <div className="service-chips" aria-label="Loại công trình"><span>Nhà ở</span><span>Nhà xưởng</span><span>Văn phòng</span><span>Kho lạnh</span></div>
-          <h1>Nhà tiền chế panel, <span>thi công nhanh</span> bàn giao đúng tiến độ</h1>
-          <p className="hero-sub">Tư vấn, thiết kế và thi công trọn gói cho nhà ở, nhà xưởng, văn phòng công trình và kho lạnh.</p>
-          <div className="hero-actions"><a className="primary-btn tooltip-top" href="#lien-he" data-tooltip="Gửi yêu cầu để nhận báo giá miễn phí">Nhận báo giá miễn phí <ArrowRight size={18} weight="bold" /></a><a className="secondary-btn tooltip-top" href="#du-an" data-tooltip="Xem các công trình đã triển khai">Xem công trình</a></div>
-          <div className="benefit-chips"><span>Thi công 7-20 ngày</span><span>Báo giá minh bạch</span><span>Panel cách nhiệt</span><span>Bảo hành kết cấu</span></div>
-        </div>
-        <div className="hero-media reveal">
-          <div className="hero-main-photo"><Image src={site.images.hero} alt="Nhà tiền chế panel đang thi công với khung thép" fill sizes="(max-width: 768px) 100vw, 50vw" priority /></div>
-          <div className="hero-thumb hero-thumb-one"><Image src={site.images.heroDetailOne} alt="Lắp đặt mái panel cách nhiệt" fill sizes="220px" /></div>
-          <div className="hero-thumb hero-thumb-two"><Image src={site.images.heroDetailTwo} alt="Khung thép tiền chế chuẩn bị lắp panel" fill sizes="240px" /></div>
-          <div className="hero-plate"><strong>7-45 ngày</strong><span>Tiến độ tham khảo sau khi chốt bản vẽ</span></div>
-        </div>
-      </section>
+      <HeroGallery slides={site.images.heroGallery} phone={site.contact.phone} phoneDisplay={site.contact.phoneDisplay} />
 
       <section className="stats-strip" aria-label="Số liệu năng lực"><div><strong>200+</strong><span>Công trình đã triển khai</span></div><div><strong>10+</strong><span>Năm kinh nghiệm</span></div><div><strong>98%</strong><span>Khách hàng hài lòng</span></div><div><strong>24h</strong><span>Phản hồi báo giá sơ bộ</span></div></section>
 
@@ -136,6 +124,8 @@ export default function Home() {
 
       <section id="du-an" className="section projects"><div className="section-stack reveal"><p className="kicker">Công trình tham khảo</p><h2>Dự án nhà panel theo nhiều nhu cầu sử dụng</h2></div><PortfolioFilter projects={projects} /></section>
 
+      <section id="video-cong-trinh" className="section video-section"><div className="section-stack reveal"><p className="kicker">Video thực tế</p><h2>Nhìn rõ hơn về nhà tiền chế panel qua từng thước phim</h2><p>Các video ghi lại công trình và không gian nhà panel thực tế để bạn dễ hình dung giải pháp phù hợp.</p></div><VideoGallery videos={site.videos} /><SectionCta text="Bạn muốn xem giải pháp phù hợp mặt bằng của mình? Gửi nhu cầu để nhận tư vấn sơ bộ." /></section>
+
       <CostEstimator />
 
       <section id="bao-gia" className="section pricing reveal"><div><p className="kicker">Ngân sách minh bạch</p><h2>Báo giá nhà tiền chế panel tham khảo theo m2</h2><p>Giá thay đổi theo vật tư, nền móng, chiều cao, loại lõi panel và mức hoàn thiện.</p></div><div className="price-table" role="table" aria-label="Bảng giá tham khảo">{[["Gói cơ bản", "Từ 1.650.000đ/m2", "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn"], ["Gói cách nhiệt tốt", "Từ 2.150.000đ/m2", "Panel PU dày hơn, xử lý mối nối kỹ hơn"], ["Gói nhà xưởng", "Theo bản vẽ", "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu"]].map(([name, price, note]) => <div className="price-row" role="row" key={name}><strong>{name}</strong><span>{price}</span><p>{note}</p></div>)}</div></section>
@@ -148,7 +138,7 @@ export default function Home() {
 
       <section id="lien-he" className="section final-cta reveal"><div><p className="kicker">Khảo sát và báo giá</p><h2>Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ</h2><p>Hotline: {site.contact.phoneDisplay}. Email: {site.contact.email}.</p><div className="contact-links"><a className="primary-btn tooltip-top" href={`tel:${site.contact.phone}`} data-tooltip="Gọi trực tiếp để trao đổi nhu cầu">Gọi tư vấn</a><a className="secondary-btn tooltip-top" href={`mailto:${site.contact.email}`} data-tooltip="Gửi bản vẽ hoặc yêu cầu qua email">Gửi bản vẽ</a></div></div><form className="contact-form" action={`mailto:${site.contact.email}`} method="post" encType="text/plain"><label>Họ tên<input name="name" placeholder="Nguyễn Văn A" required /></label><label>Số điện thoại<input name="phone" placeholder={site.contact.phoneDisplay} required /></label><label>Nhu cầu<textarea name="message" placeholder="Diện tích, địa điểm, loại công trình" rows={4} /></label><button className="primary-btn tooltip-top" type="submit" data-tooltip="Gửi thông tin để đội ngũ liên hệ lại">Nhận tư vấn</button></form></section>
 
-      <footer className="footer"><div className="footer-brand"><span>{site.name}</span><p>Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép.</p><div className="footer-social"><a href={site.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo size={20} weight="fill" /></a><a href={site.social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><YoutubeLogo size={20} weight="fill" /></a><a href={site.social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok"><TiktokLogo size={20} weight="fill" /></a></div></div><div className="footer-column"><strong>Dịch vụ</strong><a href="#cau-tao">Panel PU, EPS và Rockwool</a><a href="#bao-gia">Báo giá nhà tiền chế panel</a><a href="#du-an">Dự án thi công tham khảo</a></div><div className="footer-column"><strong>Liên hệ</strong><a href={site.location.mapUrl} target="_blank" rel="noreferrer">{site.company.address}</a><a href={`tel:${site.contact.phone}`}>Hotline: {site.contact.phoneDisplay}</a><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><span>{site.company.workingHours}</span></div><div className="footer-column"><strong>Thông tin</strong><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/dieu-khoan-su-dung">Điều khoản sử dụng</a><span>Khu vực: {site.location.label}</span></div></footer>
+      <footer className="footer"><div className="footer-brand"><div className="footer-brand-lockup"><img src={site.branding.logoMark} alt="" /><span>{site.name}<small>Ninh Thuận</small></span></div><p>Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép.</p><div className="footer-social"><a className="social-facebook" href={site.social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo size={20} weight="fill" /></a><a className="social-youtube" href={site.social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><YoutubeLogo size={20} weight="fill" /></a><a className="social-tiktok" href={site.social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok"><TiktokLogo size={20} weight="fill" /></a></div></div><div className="footer-column"><strong>Dịch vụ</strong><a href="#cau-tao">Panel PU, EPS và Rockwool</a><a href="#bao-gia">Báo giá nhà tiền chế panel</a><a href="#du-an">Dự án thi công tham khảo</a></div><div className="footer-column"><strong>Liên hệ</strong><a href={site.location.mapUrl} target="_blank" rel="noreferrer">{site.company.address}</a><a href={`tel:${site.contact.phone}`}>Hotline: {site.contact.phoneDisplay}</a><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><span>{site.company.workingHours}</span></div><div className="footer-column"><strong>Thông tin</strong><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/dieu-khoan-su-dung">Điều khoản sử dụng</a><span>Khu vực: {site.location.label}</span></div></footer>
       <div className="footer-legal"><span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span><span>MST: {site.company.taxCode}</span></div>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />

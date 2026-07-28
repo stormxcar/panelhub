@@ -64,12 +64,46 @@ export function LandingMotion() {
       return { button, handler };
     });
 
+    const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-target]"));
+    const setActiveNav = (activeId: string | null) => {
+      navLinks.forEach((link) => {
+        const isActive = link.dataset.navTarget === activeId;
+        link.classList.toggle("is-active", isActive);
+        if (isActive) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+
+    const updateActiveNav = () => {
+      const navHeight = document.querySelector<HTMLElement>(".site-nav")?.offsetHeight || 0;
+      const scrollMarker = navHeight + 56;
+      const activeId = navLinks.reduce<string | null>((currentId, link) => {
+        const targetId = link.dataset.navTarget;
+        const section = targetId ? document.getElementById(targetId) : null;
+        return section && section.getBoundingClientRect().top <= scrollMarker ? targetId || currentId : currentId;
+      }, null);
+      setActiveNav(activeId);
+    };
+
+    const navHandlers = navLinks.map((link) => {
+      const handler = () => setActiveNav(link.dataset.navTarget || null);
+      link.addEventListener("click", handler);
+      return { link, handler };
+    });
+
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    window.addEventListener("hashchange", updateActiveNav);
+    updateActiveNav();
+
     return () => {
       observer.disconnect();
       counterObserver.disconnect();
       faqHandlers.forEach(({ button, handler }) => {
         button.removeEventListener("click", handler);
       });
+      navHandlers.forEach(({ link, handler }) => link.removeEventListener("click", handler));
+      window.removeEventListener("scroll", updateActiveNav);
+      window.removeEventListener("hashchange", updateActiveNav);
     };
   }, []);
 
@@ -109,7 +143,7 @@ export function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    const useDarkTheme = window.localStorage.getItem("panelbuild-theme") === "dark";
+    const useDarkTheme = window.localStorage.getItem("paned-theme") === "dark";
     setDarkMode(useDarkTheme);
     document.documentElement.dataset.theme = useDarkTheme ? "dark" : "light";
   }, []);
@@ -118,7 +152,7 @@ export function ThemeToggle() {
     const nextDarkMode = !darkMode;
     setDarkMode(nextDarkMode);
     document.documentElement.dataset.theme = nextDarkMode ? "dark" : "light";
-    window.localStorage.setItem("panelbuild-theme", nextDarkMode ? "dark" : "light");
+    window.localStorage.setItem("paned-theme", nextDarkMode ? "dark" : "light");
   };
 
   return (

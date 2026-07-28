@@ -5,8 +5,8 @@ export default function NotFound() {
   return (
     <main className="not-found-page">
       <header className="not-found-header">
-        <a href="/" className="brand" aria-label={`Về trang chủ ${site.name}`}>
-          {site.name}
+        <a href="/" className="brand brand-logo" aria-label={`Về trang chủ ${site.name}`}>
+          <span className="brand-wordmark"><img src={site.branding.logoText} alt={site.branding.logoAlt} /></span>
         </a>
         <a className="not-found-call" href={`tel:${site.contact.phone}`}>
           <Phone size={18} weight="bold" aria-hidden="true" />
