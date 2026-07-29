@@ -67,6 +67,23 @@ const media = {
     { _key: "video-04", title: "Giải pháp nhà panel", description: "Tham khảo chi tiết công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220711/panelhub/1785218999810_7856060850081443329_7856060850081443329_nqrqfp.mp4" },
     { _key: "video-05", title: "Góc nhìn công trình", description: "Không gian sau khi hoàn thiện", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220660/panelhub/1785218999967_7856060850081443329_7856060850081443329_a3gc3f.mp4" },
     { _key: "video-06", title: "Nhà tiền chế thực tế", description: "Video cập nhật từ công trình", url: "https://res.cloudinary.com/dzwjgfd7t/video/upload/v1785220688/panelhub/1785218999964_7856060850081443329_7856060850081443329_kk5k41.mp4" }
+  ],
+  faqs: [
+    { _key: "faq-01", question: "Nhà tiền chế panel dùng được bao lâu?", answer: "Tuổi thọ phụ thuộc vào thiết kế khung thép, loại lõi panel, điều kiện sử dụng và việc bảo trì định kỳ. Khi được thi công đúng kỹ thuật, xử lý mối nối tốt và kiểm tra mái/vách theo khuyến nghị, công trình có thể vận hành ổn định trong nhiều năm." },
+    { _key: "faq-02", question: "Giá thi công nhà panel/m2 tính thế nào?", answer: "Đơn giá m² chỉ là mức tham khảo. Báo giá thực tế cần tính diện tích, loại lõi panel và độ dày, khung thép, nền móng, hệ cửa, điện nước, vận chuyển và mức hoàn thiện; vì vậy đội ngũ nên khảo sát hoặc nhận bản vẽ trước khi chốt ngân sách." },
+    { _key: "faq-03", question: "Có tháo dỡ và di dời được không?", answer: "Có, nhiều hạng mục nhà lắp ghép có thể tháo theo module để di chuyển hoặc mở rộng. Khả năng tái sử dụng sẽ phụ thuộc vào thiết kế liên kết ban đầu, tình trạng vật tư và phương án nền móng tại vị trí mới." },
+    { _key: "faq-04", question: "Panel chống nóng và chống ồn ra sao?", answer: "Panel giúp cải thiện khả năng cách nhiệt đáng kể so với mái/vách tôn đơn lớp. EPS là lựa chọn kinh tế, PU phù hợp khi cần giữ nhiệt tốt hơn, còn Rockwool thường được cân nhắc khi công trình ưu tiên chống cháy và cách âm; hiệu quả cuối cùng còn phụ thuộc độ dày và cách xử lý mối nối." },
+    { _key: "faq-05", question: "Thời gian thi công thường mất bao lâu?", answer: "Công trình nhỏ có thể hoàn thành trong vài tuần sau khi chốt thiết kế, vật tư và mặt bằng. Tiến độ sẽ thay đổi theo diện tích, nền móng, thời tiết, điều kiện vận chuyển và các hạng mục hoàn thiện như điện nước, cửa, trần hoặc nội thất." },
+    { _key: "faq-06", question: "Panel có chống cháy không?", answer: "Mức độ đáp ứng yêu cầu cháy phụ thuộc vào loại lõi panel, hệ kết cấu, vật liệu hoàn thiện và quy định áp dụng cho từng công trình. Rockwool thường được lựa chọn cho nhu cầu ưu tiên chống cháy; với dự án có yêu cầu PCCC, cần đối chiếu hồ sơ kỹ thuật và quy chuẩn cụ thể trước khi triển khai." },
+    { _key: "faq-07", question: "Thi công được ở tỉnh xa không?", answer: "Có thể triển khai liên tỉnh sau khi kiểm tra đường vận chuyển, địa điểm tập kết vật tư và điều kiện thi công tại chỗ. Đội ngũ sẽ tư vấn phương án khảo sát, lịch giao hàng và chi phí di chuyển minh bạch theo từng địa điểm." },
+    { _key: "faq-08", question: "Có bảo hành sau khi bàn giao không?", answer: "Có. Phạm vi bảo hành nên được nêu rõ trong báo giá và hợp đồng, bao gồm kết cấu, vật tư và các hạng mục hoàn thiện áp dụng. Khi bàn giao, khách hàng nên lưu lại hồ sơ nghiệm thu, hướng dẫn sử dụng và thông tin liên hệ để được hỗ trợ nhanh khi cần." },
+    { _key: "faq-09", question: "Nền móng cần chuẩn bị như thế nào?", answer: "Mặt bằng cần được khảo sát để xác định cao độ, khả năng chịu tải, thoát nước và vị trí liên kết khung thép. Tùy công trình, nền có thể là bê tông, móng đơn hoặc giải pháp gia cố khác; không nên chốt phương án chỉ dựa trên diện tích mà chưa xem địa hình thực tế." },
+    { _key: "faq-10", question: "Panel EPS và PU khác nhau thế nào?", answer: "EPS thường có chi phí hợp lý, phù hợp nhiều công trình dân dụng và không gian phổ thông. PU có khả năng giữ nhiệt tốt hơn, nên hay được dùng cho khu vực yêu cầu ổn định nhiệt; lựa chọn cuối cùng cần cân đối công năng, độ dày panel và tổng mức đầu tư." },
+    { _key: "faq-11", question: "Có thể tự thiết kế rồi thuê thi công không?", answer: "Có. Đội ngũ có thể tiếp nhận bản vẽ sẵn có, rà soát khẩu độ khung, giải pháp panel, mối nối và phương án thi công trước khi báo giá. Nếu cần điều chỉnh, các thay đổi nên được thống nhất trên bản vẽ để hạn chế phát sinh ở công trường." },
+    { _key: "faq-12", question: "Nhà panel có chịu được bão không?", answer: "Khả năng chịu gió không nằm ở panel đơn lẻ mà phụ thuộc hệ khung, liên kết, neo móng, tải trọng mái và vị trí xây dựng. Với khu vực có gió mạnh hoặc gần biển, cần tính toán giải pháp kết cấu phù hợp thay vì dùng một cấu hình chung cho mọi công trình." },
+    { _key: "faq-13", question: "Có hỗ trợ vay vốn không?", answer: "Hiện chưa có gói vay trực tiếp được công bố trên website. Khi cần, đội ngũ có thể hỗ trợ chuẩn bị báo giá và thông tin hạng mục để khách hàng làm việc với đơn vị tài chính của mình; điều kiện phê duyệt sẽ do đơn vị cho vay quyết định." },
+    { _key: "faq-14", question: "Quy trình thanh toán như thế nào?", answer: "Tiến độ thanh toán thường được chia theo các mốc khảo sát/chốt thiết kế, gia công vật tư, lắp dựng và nghiệm thu. Tỷ lệ, thời điểm thanh toán và điều kiện bàn giao cần được ghi rõ trong hợp đồng để hai bên cùng theo dõi minh bạch." },
+    { _key: "faq-15", question: "Có tư vấn và khảo sát miễn phí không?", answer: "Tư vấn sơ bộ qua điện thoại hoặc Zalo được hỗ trợ miễn phí để xác định nhu cầu và mức đầu tư dự kiến. Việc khảo sát thực tế sẽ được xác nhận theo khu vực, quy mô công trình và lịch triển khai; hãy gửi diện tích, vị trí và mục đích sử dụng để nhận hướng dẫn phù hợp." }
   ]
 };
 
@@ -113,7 +130,7 @@ await client.patch(settings._id).set({
   footerDescription: "Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép."
 }).commit();
 
-const result = await client.fetch(`*[_id == "homePage"][0]{heroImages[]{_key,imageUrl},services[]{_key,imageUrl},anatomy{imageUrl,panelTypes[]{_key}},processFeature{imageUrl},processSteps[]{_key,imageUrl},projects[]{_key,imageUrl},videos[]{_key,url}}`);
+const result = await client.fetch(`*[_id == "homePage"][0]{heroImages[]{_key,imageUrl},services[]{_key,imageUrl},anatomy{imageUrl,panelTypes[]{_key}},processFeature{imageUrl},processSteps[]{_key,imageUrl},projects[]{_key,imageUrl},videos[]{_key,url},faqs[]{_key}}`);
 
 const valid = result.heroImages?.length === 4
   && result.services?.length === 6
@@ -121,6 +138,7 @@ const valid = result.heroImages?.length === 4
   && result.projects?.length === 6
   && result.videos?.length === 6
   && result.anatomy?.panelTypes?.length === 3
+  && result.faqs?.length === 15
   && [...result.heroImages, ...result.services, result.anatomy, result.processFeature, ...result.processSteps, ...result.projects].every((item) => item.imageUrl?.startsWith("https://res.cloudinary.com/dzwjgfd7t/"))
   && result.videos.every((video) => video.url?.startsWith("https://res.cloudinary.com/dzwjgfd7t/video/"));
 
@@ -133,4 +151,4 @@ if (!importedSettings?.logoTextUrl?.startsWith("https://res.cloudinary.com/dzwjg
   throw new Error("Branding verification failed after patch.");
 }
 
-console.log("Imported and verified: 4 hero, 6 services, 1 anatomy, 1+7 process, 6 projects, 6 videos, and branding settings.");
+console.log("Imported and verified: 4 hero, 6 services, 1 anatomy, 1+7 process, 6 projects, 6 videos, 15 FAQs, and branding settings.");
