@@ -1,13 +1,13 @@
 import { ArrowRight, HouseLine, Phone } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import Link from "next/link";
 import { site } from "../lib/site";
 
 export default function NotFound() {
   return (
     <main className="not-found-page">
       <header className="not-found-header">
-        <a href="/" className="brand brand-logo" aria-label={`Về trang chủ ${site.name}`}>
-          <span className="brand-wordmark"><img src={site.branding.logoText} alt={site.branding.logoAlt} /></span>
-        </a>
+        <Link href="/" className="brand brand-logo" aria-label={`Về trang chủ ${site.name}`}><span className="brand-wordmark"><Image src={site.branding.logoText} alt={site.branding.logoAlt} width={220} height={60} /></span></Link>
         <a className="not-found-call" href={`tel:${site.contact.phone}`}>
           <Phone size={18} weight="bold" aria-hidden="true" />
           <span>{site.contact.phoneDisplay}</span>
@@ -23,14 +23,14 @@ export default function NotFound() {
             Liên kết bạn mở có thể đã không còn tồn tại hoặc bị nhập sai. Hãy trở về trang chủ để xem các giải pháp thi công panel của chúng tôi.
           </p>
           <div className="not-found-actions">
-            <a href="/" className="primary-btn">
+            <Link href="/" className="primary-btn">
               <HouseLine size={20} weight="bold" aria-hidden="true" />
               Về trang chủ
-            </a>
-            <a href="/#bao-gia" className="secondary-btn">
+            </Link>
+            <Link href="/#bao-gia" className="secondary-btn">
               Nhận báo giá
               <ArrowRight size={20} weight="bold" aria-hidden="true" />
-            </a>
+            </Link>
           </div>
         </div>
         <aside className="not-found-note">

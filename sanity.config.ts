@@ -16,6 +16,14 @@ export default defineConfig({
       defineField({ name: "email", title: "Email", type: "string", validation: (rule) => rule.email() }),
       defineField({ name: "address", title: "Địa chỉ", type: "string" })
     ] }),
+    defineType({ name: "legalPage", title: "Trang pháp lý", type: "document", fields: [
+      defineField({ name: "title", title: "Tiêu đề", type: "string", validation: (rule) => rule.required() }),
+      defineField({ name: "slug", title: "Đường dẫn", type: "slug", options: { source: "title" }, validation: (rule) => rule.required() }),
+      defineField({ name: "lead", title: "Mở đầu", type: "text" }),
+      defineField({ name: "sections", title: "Nội dung", type: "array", of: [{ type: "object", fields: [defineField({ name: "heading", title: "Tiêu đề mục", type: "string" }), defineField({ name: "body", title: "Nội dung", type: "text" })] }] }),
+      defineField({ name: "seoTitle", title: "SEO title", type: "string" }),
+      defineField({ name: "seoDescription", title: "SEO description", type: "text" })
+    ] }),
     defineType({ name: "homePage", title: "Trang chủ", type: "document", initialValue: { heroTitle: "Nhà tiền chế tấm panel", heroDescription: "Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế." }, fields: [
       defineField({ name: "heroTitle", title: "Tiêu đề hero", type: "string" }),
       defineField({ name: "heroDescription", title: "Mô tả hero", type: "text" }),
