@@ -5,12 +5,12 @@ import { CloudinaryVideoInput } from "./sanity/components/cloudinary-video-input
 import { CloudinaryImageInput } from "./sanity/components/cloudinary-image-input";
 
 const imageItemPreview = {
-  select: { title: "title", label: "label", image: "image", imageUrl: "imageUrl" },
-  prepare({ title, label, image, imageUrl }: { title?: string; label?: string; image?: unknown; imageUrl?: string }) {
+  select: { title: "title", label: "label", imageUrl: "imageUrl" },
+  prepare({ title, label, imageUrl }: { title?: string; label?: string; imageUrl?: string }) {
     return {
       title: title || label || "Ảnh công trình",
       subtitle: imageUrl ? "Có ảnh hiện tại — mở card để xem hoặc thay ảnh" : "Chưa có ảnh",
-      media: image || (imageUrl ? createElement("img", { src: imageUrl, alt: "", style: { width: "100%", height: "100%", objectFit: "cover" } }) : undefined)
+      media: imageUrl ? createElement("img", { src: imageUrl, alt: "", style: { width: "100%", height: "100%", objectFit: "cover" } }) : undefined
     };
   }
 };
