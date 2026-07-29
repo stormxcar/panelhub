@@ -1,5 +1,6 @@
 import { defineArrayMember, defineConfig, defineField, defineType } from "sanity";
 import { structureTool } from "sanity/structure";
+import { createElement } from "react";
 import { CloudinaryVideoInput } from "./sanity/components/cloudinary-video-input";
 import { CloudinaryImageInput } from "./sanity/components/cloudinary-image-input";
 
@@ -9,7 +10,7 @@ const imageItemPreview = {
     return {
       title: title || label || "Ảnh công trình",
       subtitle: imageUrl ? "Có ảnh hiện tại — mở card để xem hoặc thay ảnh" : "Chưa có ảnh",
-      media: image || imageUrl
+      media: image || (imageUrl ? createElement("img", { src: imageUrl, alt: "", style: { width: "100%", height: "100%", objectFit: "cover" } }) : undefined)
     };
   }
 };
