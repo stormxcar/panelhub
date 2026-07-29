@@ -4,7 +4,7 @@ export const sanityClient = createClient({
   projectId: "syr5q4gg",
   dataset: "production",
   apiVersion: "2026-07-28",
-  useCdn: true
+  useCdn: false
 });
 
 export type ManagedHome = {

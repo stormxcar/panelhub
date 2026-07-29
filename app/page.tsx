@@ -26,6 +26,8 @@ import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
 import { getManagedHome, getManagedSiteSettings } from "../lib/sanity";
 
+export const dynamic = "force-dynamic";
+
 const services = [
   ["Mẫu nhà paned dân dụng", "Nhiều kiểu dáng mái và phương án mặt tiền để tham khảo trước khi thiết kế.", "Nhà ở · Nhà cấp 4"],
   ["Khung thép tiền chế", "Lắp dựng khung theo mặt bằng, khẩu độ và nhu cầu sử dụng thực tế.", "Kết cấu · Thi công"],
