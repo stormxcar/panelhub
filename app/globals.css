@@ -2579,6 +2579,20 @@ main {
   font-weight: 700;
 }
 
+.cta-trust {
+  display: block;
+  max-width: 680px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.cta-trust-on-dark {
+  color: rgba(255, 255, 255, 0.78);
+}
+
 .portfolio-filter {
   display: grid;
   gap: 22px;
