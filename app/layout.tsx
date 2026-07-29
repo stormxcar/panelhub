@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import { site } from "../lib/site";
+import { getManagedSiteSettings } from "../lib/sanity";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -11,34 +12,22 @@ const playfair = Playfair_Display({
   display: "swap"
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: site.seo.title,
-  description: site.seo.description,
-  keywords: site.seo.keywords,
-  robots: {
-    index: true,
-    follow: true
-  },
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getManagedSiteSettings();
+  const logoMark = settings?.logoMarkUrl || site.branding.logoMark;
+
+  return {
+    metadataBase: new URL(site.url),
     title: site.seo.title,
-    description: site.seo.openGraphDescription
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: site.seo.title,
-    description: site.seo.openGraphDescription
-  },
-  icons: {
-    icon: [{ url: site.branding.logoMark, type: "image/png" }],
-    apple: [{ url: site.branding.logoMark, type: "image/png" }]
-  },
-  alternates: {
-    canonical: "/"
-  }
-};
+    description: site.seo.description,
+    keywords: site.seo.keywords,
+    robots: { index: true, follow: true },
+    openGraph: { type: "website", locale: "vi_VN", title: site.seo.title, description: site.seo.openGraphDescription },
+    twitter: { card: "summary_large_image", title: site.seo.title, description: site.seo.openGraphDescription },
+    icons: { icon: [{ url: logoMark, type: "image/png" }], apple: [{ url: logoMark, type: "image/png" }] },
+    alternates: { canonical: "/" }
+  };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

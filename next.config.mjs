@@ -6,6 +6,7 @@ const projectRoot = dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   outputFileTracingRoot: projectRoot,
+  distDir: process.env.NEXT_BUILD_DIST_DIR || ".next",
   images: {
     remotePatterns: [
       {
