@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import { site } from "../lib/site";
-import { getManagedSiteSettings } from "../lib/sanity";
+import { getManagedHome, getManagedSiteSettings } from "../lib/sanity";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -13,17 +13,20 @@ const playfair = Playfair_Display({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getManagedSiteSettings();
+  const [settings, home] = await Promise.all([getManagedSiteSettings(), getManagedHome()]);
   const logoMark = settings?.logoMarkUrl || site.branding.logoMark;
+  const title = home?.seoTitle || site.seo.title;
+  const description = home?.seoDescription || site.seo.description;
+  const openGraphImage = home?.heroImages?.[0]?.imageUrl || site.images.hero;
 
   return {
     metadataBase: new URL(site.url),
-    title: site.seo.title,
-    description: site.seo.description,
+    title,
+    description,
     keywords: site.seo.keywords,
     robots: { index: true, follow: true },
-    openGraph: { type: "website", locale: "vi_VN", title: site.seo.title, description: site.seo.openGraphDescription },
-    twitter: { card: "summary_large_image", title: site.seo.title, description: site.seo.openGraphDescription },
+    openGraph: { type: "website", locale: "vi_VN", title, description, images: [{ url: openGraphImage }] },
+    twitter: { card: "summary_large_image", title, description, images: [openGraphImage] },
     icons: { icon: [{ url: logoMark, type: "image/png" }], apple: [{ url: logoMark, type: "image/png" }] },
     alternates: { canonical: "/" }
   };

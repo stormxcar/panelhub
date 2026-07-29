@@ -5,7 +5,7 @@ export const site = {
     logoMark: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_no_text_oiboay.png",
     logoAlt: "PANED Ninh Thuận"
   },
-  url: "https://panedninhthuan.online",
+  url: "https://www.panedninhthuan.online",
   contact: {
     phone: "0946657257",
     phoneDisplay: "0946 657 257",

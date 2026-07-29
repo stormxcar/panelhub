@@ -9,9 +9,12 @@ export const sanityClient = createClient({
 
 export type ManagedHome = {
   heroTitle?: string; heroDescription?: string;
-  heroImages?: { label?: string; imageUrl?: string }[];
+  heroImages?: { _key?: string; label?: string; imageUrl?: string }[];
+  heroCtaLabel?: string; heroCtaHref?: string;
+  stats?: { _key?: string; value?: string; label?: string }[];
+  testimonials?: { _key?: string; name?: string; role?: string; quote?: string }[];
   services?: { title: string; tag?: string; description: string; imageUrl?: string }[];
-  anatomy?: { title?: string; description?: string; imageUrl?: string };
+  anatomy?: { title?: string; description?: string; imageUrl?: string; panelTypes?: { _key?: string; name?: string; description?: string }[] };
   processFeature?: { imageUrl?: string };
   processSteps?: { title: string; description: string; imageUrl?: string }[];
   projects?: { title: string; category?: string; description: string; imageUrl?: string }[];
@@ -26,12 +29,20 @@ export type ManagedSiteSettings = {
   phone?: string;
   email?: string;
   address?: string;
+  workingHours?: string;
+  taxCode?: string;
+  zaloUrl?: string;
+  messengerUrl?: string;
+  facebookUrl?: string;
+  youtubeUrl?: string;
+  tiktokUrl?: string;
+  mapUrl?: string;
   logoTextUrl?: string;
   logoMarkUrl?: string;
   footerDescription?: string;
 };
 
-const siteSettingsQuery = `*[_type == "siteSettings"][0]{name,phone,email,address,footerDescription,"logoTextUrl":coalesce(logoText.asset->url,logoTextUrl),"logoMarkUrl":coalesce(logoMark.asset->url,logoMarkUrl)}`;
+const siteSettingsQuery = `*[_type == "siteSettings"][0]{name,phone,email,address,workingHours,taxCode,zaloUrl,messengerUrl,facebookUrl,youtubeUrl,tiktokUrl,mapUrl,footerDescription,"logoTextUrl":coalesce(logoText.asset->url,logoTextUrl),"logoMarkUrl":coalesce(logoMark.asset->url,logoMarkUrl)}`;
 
 export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | null> {
   try {
@@ -48,7 +59,7 @@ export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | nu
 export async function getManagedHome(): Promise<ManagedHome | null> {
   try {
     return await sanityClient.fetch<ManagedHome | null>(
-      `*[_type == "homePage"][0]{heroTitle,heroDescription,heroImages[]{label,"imageUrl":coalesce(image.asset->url,imageUrl)},services[]{title,tag,description,"imageUrl":coalesce(image.asset->url,imageUrl)},anatomy{title,description,"imageUrl":coalesce(image.asset->url,imageUrl)},processFeature{"imageUrl":coalesce(image.asset->url,imageUrl)},processSteps[]{title,description,"imageUrl":coalesce(image.asset->url,imageUrl)},projects[]{title,category,description,"imageUrl":coalesce(image.asset->url,imageUrl)},faqs[]{question,answer},videos[]{title,url,description},pricing[]{name,price,note},footerDescription,seoTitle,seoDescription}`,
+      `*[_type == "homePage"][0]{heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(image.asset->url,imageUrl)},stats[]{_key,value,label},testimonials[]{_key,name,role,quote},services[]{_key,title,tag,description,"imageUrl":coalesce(image.asset->url,imageUrl)},anatomy{title,description,"imageUrl":coalesce(image.asset->url,imageUrl),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(image.asset->url,imageUrl)},processSteps[]{_key,title,description,"imageUrl":coalesce(image.asset->url,imageUrl)},projects[]{_key,title,category,description,"imageUrl":coalesce(image.asset->url,imageUrl)},faqs[]{_key,question,answer},videos[]{_key,title,url,description},pricing[]{_key,name,price,note},footerDescription,seoTitle,seoDescription}`,
       {},
       { next: { revalidate: 3600, tags: ["sanity-home"] } }
     );

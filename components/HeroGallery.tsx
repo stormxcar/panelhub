@@ -16,9 +16,11 @@ type HeroGalleryProps = {
   phoneDisplay: string;
   title?: string;
   description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 };
 
-export function HeroGallery({ slides, phone, phoneDisplay, title = "Nhà tiền chế tấm panel", description = "Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế." }: HeroGalleryProps) {
+export function HeroGallery({ slides, phone, phoneDisplay, title = "Nhà tiền chế tấm panel", description = "Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế.", ctaLabel = "Nhận tư vấn", ctaHref = "#lien-he" }: HeroGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeSlide = slides[activeIndex];
 
@@ -39,7 +41,7 @@ export function HeroGallery({ slides, phone, phoneDisplay, title = "Nhà tiền 
             <li><CheckCircle size={20} weight="fill" /> Bền đẹp theo thời gian</li>
           </ul>
           <div className="hero-showcase-actions">
-            <a className="primary-btn tooltip-top" href="#lien-he" data-tooltip="Gửi nhu cầu để nhận tư vấn miễn phí">Nhận tư vấn <ArrowRight size={18} weight="bold" /></a>
+            <a className="primary-btn tooltip-top" href={ctaHref} data-tooltip="Gửi nhu cầu để nhận tư vấn miễn phí">{ctaLabel} <ArrowRight size={18} weight="bold" /></a>
             <a className="hero-showcase-phone tooltip-top" href={`tel:${phone}`} data-tooltip="Gọi trực tiếp để được tư vấn"><Phone size={19} weight="fill" /> {phoneDisplay}</a>
           </div>
         </div>

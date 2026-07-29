@@ -23,11 +23,19 @@ export default defineConfig({
   basePath: "/admin",
   plugins: [structureTool()],
   schema: { types: [
-    defineType({ name: "siteSettings", title: "Thông tin doanh nghiệp", type: "document", initialValue: { name: "PANED", phone: "0946657257", email: "phamhoangbaoanh87@gmail.com", address: "Phường Phan Rang, tỉnh Khánh Hòa", logoTextUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_text_i7kfp4.png", logoMarkUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_no_text_oiboay.png", footerDescription: "Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép." }, fields: [
+    defineType({ name: "siteSettings", title: "Thông tin doanh nghiệp", type: "document", initialValue: { name: "PANED", phone: "0946657257", email: "phamhoangbaoanh87@gmail.com", address: "Phường Phan Rang, tỉnh Khánh Hòa", workingHours: "Thứ 2 - Thứ 7: 7:30 - 17:30", taxCode: "0123456789", zaloUrl: "https://zalo.me/0946657257", messengerUrl: "https://m.me/your-page", facebookUrl: "https://facebook.com/paned", youtubeUrl: "https://youtube.com/@paned", tiktokUrl: "https://tiktok.com/@paned", mapUrl: "https://maps.google.com", logoTextUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_text_i7kfp4.png", logoMarkUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_no_text_oiboay.png", footerDescription: "Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép." }, fields: [
       defineField({ name: "name", title: "Tên thương hiệu", type: "string", validation: (rule) => rule.required() }),
       defineField({ name: "phone", title: "Số điện thoại", type: "string" }),
       defineField({ name: "email", title: "Email", type: "string", validation: (rule) => rule.email() }),
       defineField({ name: "address", title: "Địa chỉ", type: "string" }),
+      defineField({ name: "workingHours", title: "Giờ làm việc", type: "string" }),
+      defineField({ name: "taxCode", title: "Mã số thuế", type: "string" }),
+      defineField({ name: "zaloUrl", title: "Link Zalo", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
+      defineField({ name: "messengerUrl", title: "Link Messenger", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
+      defineField({ name: "facebookUrl", title: "Link Facebook", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
+      defineField({ name: "youtubeUrl", title: "Link YouTube", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
+      defineField({ name: "tiktokUrl", title: "Link TikTok", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
+      defineField({ name: "mapUrl", title: "Link Google Maps", type: "url", validation: (rule) => rule.uri({ scheme: ["http", "https"] }) }),
       defineField({ name: "logoText", title: "Logo header mới tải lên", type: "image", options: { hotspot: true } }),
       defineField({ name: "logoTextUrl", title: "Logo header hiện tại", type: "string", components: { input: CloudinaryImageInput } }),
       defineField({ name: "logoMark", title: "Logo icon / favicon mới tải lên", type: "image", options: { hotspot: true } }),
