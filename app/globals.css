@@ -2677,6 +2677,43 @@ main {
   object-fit: cover;
 }
 
+.video-card-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 12px;
+  padding: 28px;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(24, 32, 28, 0.98), rgba(44, 26, 18, 0.94));
+}
+
+.video-card-fallback svg {
+  color: #ffb095;
+}
+
+.video-card-fallback p {
+  max-width: 25ch;
+  margin: 0;
+  font-weight: 700;
+}
+
+.video-card-fallback a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mobile-swipe-hint {
+  display: none;
+}
+
 .video-card-label {
   position: absolute;
   top: 0;
@@ -3009,6 +3046,20 @@ html[data-theme="dark"] .footer-social .social-tiktok:hover {
 }
 
 @media (max-width: 760px) {
+  .mobile-swipe-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 12px 0 2px;
+    color: var(--accent-dark);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .mobile-swipe-hint svg {
+    animation: swipe-hint 1.8s ease-in-out infinite;
+  }
+
   .stats-strip,
   .testimonials-grid,
   .estimator-section,
@@ -3179,6 +3230,17 @@ html[data-theme="dark"] .footer-social .social-tiktok:hover {
   .not-found-note {
     max-width: 310px;
     margin-top: 12px;
+  }
+}
+
+@keyframes swipe-hint {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-swipe-hint svg {
+    animation: none;
   }
 }
 

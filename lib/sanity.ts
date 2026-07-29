@@ -8,6 +8,7 @@ export const sanityClient = createClient({
 });
 
 export type ManagedHome = {
+  _updatedAt?: string;
   heroTitle?: string; heroDescription?: string;
   heroImages?: { _key?: string; label?: string; imageUrl?: string }[];
   heroCtaLabel?: string; heroCtaHref?: string;
@@ -19,7 +20,7 @@ export type ManagedHome = {
   processSteps?: { title: string; description: string; imageUrl?: string }[];
   projects?: { title: string; category?: string; description: string; imageUrl?: string }[];
   faqs?: { question: string; answer: string }[];
-  videos?: { title: string; url: string; description?: string }[];
+  videos?: { _key?: string; title: string; url: string; description?: string; captionUrl?: string }[];
   pricing?: { name: string; price: string; note: string }[];
   footerDescription?: string; seoTitle?: string; seoDescription?: string;
 };
@@ -59,7 +60,7 @@ export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | nu
 export async function getManagedHome(): Promise<ManagedHome | null> {
   try {
     return await sanityClient.fetch<ManagedHome | null>(
-      `*[_type == "homePage"][0]{heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(image.asset->url,imageUrl)},stats[]{_key,value,label},testimonials[]{_key,name,role,quote},services[]{_key,title,tag,description,"imageUrl":coalesce(image.asset->url,imageUrl)},anatomy{title,description,"imageUrl":coalesce(image.asset->url,imageUrl),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(image.asset->url,imageUrl)},processSteps[]{_key,title,description,"imageUrl":coalesce(image.asset->url,imageUrl)},projects[]{_key,title,category,description,"imageUrl":coalesce(image.asset->url,imageUrl)},faqs[]{_key,question,answer},videos[]{_key,title,url,description},pricing[]{_key,name,price,note},footerDescription,seoTitle,seoDescription}`,
+      `*[_type == "homePage"][0]{_updatedAt,heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(image.asset->url,imageUrl)},stats[]{_key,value,label},testimonials[]{_key,name,role,quote},services[]{_key,title,tag,description,"imageUrl":coalesce(image.asset->url,imageUrl)},anatomy{title,description,"imageUrl":coalesce(image.asset->url,imageUrl),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(image.asset->url,imageUrl)},processSteps[]{_key,title,description,"imageUrl":coalesce(image.asset->url,imageUrl)},projects[]{_key,title,category,description,"imageUrl":coalesce(image.asset->url,imageUrl)},faqs[]{_key,question,answer},videos[]{_key,title,url,description,captionUrl},pricing[]{_key,name,price,note},footerDescription,seoTitle,seoDescription}`,
       {},
       { next: { revalidate: 3600, tags: ["sanity-home"] } }
     );

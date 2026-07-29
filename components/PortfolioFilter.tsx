@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 
 export type PortfolioProject = {
@@ -39,6 +40,7 @@ export function PortfolioFilter({ projects }: { projects: PortfolioProject[] }) 
           </button>
         ))}
       </div>
+      <p className="mobile-swipe-hint" aria-hidden="true">Vuốt để xem thêm công trình <ArrowRight size={16} weight="bold" /></p>
       <div className="project-grid portfolio-projects">
         {visibleProjects.map((project) => (
           <article className="project-card" key={project.title}>

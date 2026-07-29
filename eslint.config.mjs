@@ -6,7 +6,7 @@ const baseDirectory = dirname(fileURLToPath(import.meta.url));
 const compat = new FlatCompat({ baseDirectory });
 
 const config = [
-  { ignores: [".next/**", "node_modules/**", "studio/dist/**"] },
+  { ignores: [".next/**", ".next-*/**", ".sanity/**", "dist/**", "studio/dist/**", "studio-dist-check/**", "node_modules/**"] },
   ...compat.extends("next/core-web-vitals")
 ];
 

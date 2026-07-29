@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     keywords: site.seo.keywords,
     robots: { index: true, follow: true },
-    openGraph: { type: "website", locale: "vi_VN", title, description, images: [{ url: openGraphImage }] },
+    openGraph: { type: "website", locale: "vi_VN", url: site.url, siteName: site.name, title, description, images: [{ url: openGraphImage }] },
     twitter: { card: "summary_large_image", title, description, images: [openGraphImage] },
     icons: { icon: [{ url: logoMark, type: "image/png" }], apple: [{ url: logoMark, type: "image/png" }] },
     alternates: { canonical: "/" }

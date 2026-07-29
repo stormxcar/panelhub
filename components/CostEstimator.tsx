@@ -1,6 +1,5 @@
 "use client";
 
-import { CaretDown, Check } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 
 const panelRates = { EPS: 1650000, PU: 2150000, Rockwool: 2450000 };
@@ -8,39 +7,13 @@ const panelRates = { EPS: 1650000, PU: 2150000, Rockwool: 2450000 };
 type SelectOption<T extends string> = { label: string; value: T };
 
 function SelectBox<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: SelectOption<T>[]; onChange: (value: T) => void }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const selected = options.find((option) => option.value === value);
-
   return (
-    <div className="custom-select">
+    <label className="custom-select">
       <span className="custom-select-label">{label}</span>
-      <button
-        className="custom-select-trigger"
-        type="button"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen((open) => !open)}
-        onKeyDown={(event) => { if (event.key === "Escape") setIsOpen(false); }}
-      >
-        <span>{selected?.label}</span><CaretDown size={18} weight="bold" aria-hidden="true" />
-      </button>
-      {isOpen && (
-        <div className="custom-select-options" role="listbox" aria-label={label}>
-          {options.map((option) => (
-            <button
-              className={option.value === value ? "is-selected" : ""}
-              type="button"
-              role="option"
-              aria-selected={option.value === value}
-              key={option.value}
-              onClick={() => { onChange(option.value); setIsOpen(false); }}
-            >
-              <span>{option.label}</span>{option.value === value && <Check size={17} weight="bold" aria-hidden="true" />}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+      <select value={value} onChange={(event) => onChange(event.target.value as T)}>
+        {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+      </select>
+    </label>
   );
 }
 

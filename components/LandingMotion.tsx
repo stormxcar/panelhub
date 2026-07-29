@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUp, List, Moon, Sun, X } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function LandingMotion() {
   useEffect(() => {
@@ -178,10 +178,52 @@ const mobileLinks = [
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const nav = navRef.current;
+    const links = Array.from(nav?.querySelectorAll<HTMLAnchorElement>("a") || []);
+    links[0]?.focus();
+
+    const closeFromOutside = (event: PointerEvent) => {
+      if (!nav?.contains(event.target as Node) && !triggerRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    const keepFocusInMenu = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setIsOpen(false);
+        triggerRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab" || links.length === 0) return;
+      const first = links[0];
+      const last = links[links.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("pointerdown", closeFromOutside);
+    document.addEventListener("keydown", keepFocusInMenu);
+    return () => {
+      document.removeEventListener("pointerdown", closeFromOutside);
+      document.removeEventListener("keydown", keepFocusInMenu);
+    };
+  }, [isOpen]);
 
   return (
     <div className="mobile-nav">
       <button
+        ref={triggerRef}
         className="mobile-menu-trigger"
         type="button"
         aria-label={isOpen ? "Đóng menu" : "Mở menu"}
@@ -192,11 +234,11 @@ export function MobileNav() {
         {isOpen ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
       </button>
       {isOpen && (
-        <div className="mobile-menu" id="mobile-menu">
+        <nav ref={navRef} className="mobile-menu" id="mobile-menu" aria-label="Điều hướng trên điện thoại">
           {mobileLinks.map(([label, href]) => (
             <a href={href} key={href} onClick={() => setIsOpen(false)}>{label}</a>
           ))}
-        </div>
+        </nav>
       )}
     </div>
   );
