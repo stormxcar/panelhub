@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUp, List, Moon, Sun, X } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 export function LandingMotion() {
   useEffect(() => {
@@ -53,17 +53,6 @@ export function LandingMotion() {
 
     counters.forEach((counter) => counterObserver.observe(counter));
 
-    const faqButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".faq-item button"));
-    const faqHandlers = faqButtons.map((button) => {
-      const handler = () => {
-        const item = button.closest(".faq-item");
-        const isOpen = item?.classList.toggle("is-open") || false;
-        button.setAttribute("aria-expanded", String(isOpen));
-      };
-      button.addEventListener("click", handler);
-      return { button, handler };
-    });
-
     const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-target]"));
     const setActiveNav = (activeId: string | null) => {
       navLinks.forEach((link) => {
@@ -98,9 +87,6 @@ export function LandingMotion() {
     return () => {
       observer.disconnect();
       counterObserver.disconnect();
-      faqHandlers.forEach(({ button, handler }) => {
-        button.removeEventListener("click", handler);
-      });
       navHandlers.forEach(({ link, handler }) => link.removeEventListener("click", handler));
       window.removeEventListener("scroll", updateActiveNav);
       window.removeEventListener("hashchange", updateActiveNav);
@@ -112,6 +98,7 @@ export function LandingMotion() {
 
 export function ScrollTop() {
   const [showTop, setShowTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("#hero");
@@ -126,6 +113,26 @@ export function ScrollTop() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    let frame = 0;
+    const updateProgress = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        setScrollProgress(maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0);
+      });
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
+
   return (
     <button
       className={`scroll-top ${showTop ? "is-visible" : ""}`}
@@ -133,8 +140,9 @@ export function ScrollTop() {
       aria-label="Cuộn lên đầu trang"
       data-tooltip="Cuộn lên đầu trang"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      style={{ "--scroll-progress": `${scrollProgress * 360}deg` } as CSSProperties}
     >
-      <ArrowUp size={22} weight="bold" />
+      <span className="scroll-top-icon"><ArrowUp size={22} weight="bold" /></span>
     </button>
   );
 }

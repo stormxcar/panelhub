@@ -11,7 +11,6 @@ import {
   HouseLine,
   MessengerLogo,
   Phone,
-  Star,
   ThermometerCold,
   TiktokLogo,
   Wrench,
@@ -19,8 +18,11 @@ import {
   YoutubeLogo
 } from "@phosphor-icons/react/dist/ssr";
 import { CostEstimator } from "../components/CostEstimator";
+import { FaqList } from "../components/FaqList";
 import { HeroGallery } from "../components/HeroGallery";
 import { LandingMotion, MobileNav, ScrollTop, ThemeToggle } from "../components/LandingMotion";
+import { fallbackMaterialBrands, MaterialBrands } from "../components/MaterialBrands";
+import { TestimonialsCarousel } from "../components/TestimonialsCarousel";
 import { PortfolioFilter, type PortfolioProject } from "../components/PortfolioFilter";
 import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
@@ -93,6 +95,13 @@ const panelTypes = [
   { name: "Panel Rockwool", description: "Ưu tiên chống cháy, cách âm cho xưởng và khu kỹ thuật." }
 ];
 
+const planningBenefits = [
+  { title: "Tiến độ chủ động", description: "Khung có thể gia công trước tại xưởng; phần lắp dựng, mái và vách được sắp theo trình tự rõ ràng tại công trình.", checkpoints: ["Chốt mặt bằng và khẩu độ trước gia công", "Lập mốc giao vật tư và lắp dựng", "Theo dõi tiến độ theo từng hạng mục"] },
+  { title: "Ngân sách dễ kiểm soát", description: "Khối lượng vật tư được bóc tách theo cấu hình thực tế thay vì chỉ ước lượng theo diện tích sử dụng.", checkpoints: ["Phân tách khung, panel và hoàn thiện", "Làm rõ hạng mục bao gồm/không bao gồm", "Dự trù vận chuyển và điều kiện mặt bằng"] },
+  { title: "Cấu hình đúng nhu cầu", description: "Loại lõi panel, độ dày, hệ cửa và xử lý liên kết được cân đối theo công năng, môi trường và mức đầu tư.", checkpoints: ["Cân nhắc nhiệt, ồn và yêu cầu cháy", "Chọn quy cách theo không gian sử dụng", "Đối chiếu hồ sơ kỹ thuật trước thi công"] },
+  { title: "Hiện trường gọn hơn", description: "Phương án lắp ghép giúp giảm công đoạn ướt, thuận tiện tổ chức vật tư và phối hợp các hạng mục hoàn thiện.", checkpoints: ["Giảm thời gian chờ giữa các công đoạn", "Dễ bố trí khu vực tập kết vật tư", "Kiểm tra mối nối trước khi bàn giao"] }
+];
+
 function SectionCta({ text }: { text: string }) {
   return <div className="section-cta"><div><p>{text}</p><span className="cta-trust">Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát</span></div><a className="secondary-btn tooltip-top" href="#lien-he" data-tooltip="Chuyển đến form nhận báo giá">Nhận báo giá miễn phí <ArrowRight size={17} weight="bold" /></a></div>;
 }
@@ -130,6 +139,10 @@ export default async function Home() {
   const managedVideos = managedHome?.videos?.length ? managedHome.videos.map((item) => ({ ...item, description: item.description ?? "Video công trình PANED" })) : site.videos;
   const managedPricing = managedHome?.pricing?.length ? managedHome.pricing.map((item) => [item.name, item.price, item.note]) : [["Gói cơ bản", "Từ 1.650.000đ/m2", "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn"], ["Gói cách nhiệt tốt", "Từ 2.150.000đ/m2", "Panel PU dày hơn, xử lý mối nối kỹ hơn"], ["Gói nhà xưởng", "Theo bản vẽ", "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu"]];
   const managedStats = managedHome?.stats?.length ? managedHome.stats.filter((item) => item.value && item.label).map((item) => ({ value: item.value!, label: item.label! })) : stats;
+  const managedMaterialBrands = managedHome?.materialBrands?.length ? managedHome.materialBrands.map((item, index) => {
+    const fallback = fallbackMaterialBrands.find((brand) => brand.name === item.name) || fallbackMaterialBrands[index % fallbackMaterialBrands.length];
+    return { id: item._key || fallback.id, name: item.name || fallback.name, logo: item.logoUrl || fallback.logo, category: item.category || fallback.category, summary: item.summary || fallback.summary, material: item.material || fallback.material, benefit: item.benefit || fallback.benefit };
+  }).filter((item) => Boolean(item.name && item.logo)) : fallbackMaterialBrands;
   const managedTestimonials = managedHome?.testimonials?.length ? managedHome.testimonials.filter((item) => item.name && item.role && item.quote).map((item) => ({ name: item.name!, role: item.role!, quote: item.quote! })) : testimonials.map(([name, role, quote]) => ({ name, role, quote }));
   const managedPanelTypes = managedHome?.anatomy?.panelTypes?.length ? managedHome.anatomy.panelTypes.filter((item) => item.name && item.description).map((item) => ({ name: item.name!, description: item.description! })) : panelTypes;
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: managedFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
@@ -159,12 +172,12 @@ export default async function Home() {
 
       <section className="section trust-section reveal">
         <div className="section-stack"><p className="kicker">Nền tảng tin cậy</p><h2>Vật tư phù hợp, quy trình rõ ràng và cam kết sau bàn giao</h2></div>
-        <div className="partners-row" aria-label="Thương hiệu vật tư tham khảo"><strong>Tôn Đông Á</strong><strong>BlueScope</strong><strong>Kingspan</strong><strong>Sika</strong></div>
+        <MaterialBrands brands={managedMaterialBrands} />
         <div className="badge-row"><span><CheckCircle size={18} weight="fill" /> Bảo hành kết cấu 5 năm</span><span><CheckCircle size={18} weight="fill" /> Panel theo yêu cầu PCCC</span><span><CheckCircle size={18} weight="fill" /> Nhận thi công liên tỉnh</span></div>
-        <div className="testimonials-grid">{managedTestimonials.map((item) => <article className="testimonial-card" key={item.name}><div className="stars" aria-label="5 trên 5 sao">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} weight="fill" />)}</div><p>“{item.quote}”</p><strong>{item.name}</strong><span>{item.role}</span></article>)}</div>
+        <TestimonialsCarousel items={managedTestimonials} />
       </section>
 
-      <section className="section comparison reveal"><div className="section-stack"><p className="kicker">Giải pháp xây nhanh</p><h2>Nhà tiền chế panel giúp kiểm soát tiến độ và chi phí từ đầu</h2></div><div className="compare-grid">{[["Thời gian", "Gia công khung tại xưởng và lắp panel tại công trình giúp rút ngắn thời gian chờ."], ["Chi phí", "Dễ bóc tách vật tư, minh bạch báo giá theo diện tích và mức hoàn thiện."], ["Độ bền", "Kết cấu khung thép kết hợp lõi panel phù hợp nhu cầu nhiệt, ồn, cháy."]].map(([title, text]) => <article className="compare-item" key={title}><CheckCircle size={28} weight="fill" /><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+      <section className="section comparison reveal"><div className="section-stack"><p className="kicker">Giải pháp xây nhanh</p><h2>Nhà tiền chế panel giúp kiểm soát tiến độ và chi phí từ đầu</h2></div><p className="mobile-swipe-hint" aria-hidden="true">Vuốt để xem từng lợi ích <ArrowRight size={16} weight="bold" /></p><div className="compare-grid compare-swipe" aria-label="Các lợi ích khi triển khai nhà panel">{planningBenefits.map((item, index) => <article className="compare-item" key={item.title}><div className="compare-item-top"><span className="compare-index">0{index + 1}</span><CheckCircle size={28} weight="fill" /></div><h3>{item.title}</h3><p>{item.description}</p><div className="compare-checkpoints"><span>Điểm cần kiểm soát</span><ul>{item.checkpoints.map((checkpoint) => <li key={checkpoint}>{checkpoint}</li>)}</ul></div></article>)}</div></section>
 
       <section className="section services-section"><div className="section-stack reveal"><p className="kicker">Dịch vụ trọn gói</p><h2>Giải pháp panel theo đúng mô hình bạn đang vận hành</h2></div><p className="mobile-swipe-hint" aria-hidden="true">Vuốt để xem thêm <ArrowRight size={16} weight="bold" /></p><div className="services-bento">{managedServices.map((item) => <article className="service-card reveal" key={item.title}><Image src={item.imageUrl} alt={item.title} fill sizes="(max-width: 768px) 82vw, 33vw" /><div><span>{item.tag}</span><h3>{item.title}</h3><p>{item.description}</p><a href="#lien-he">Tìm hiểu thêm <ArrowRight size={16} weight="bold" /></a></div></article>)}</div><SectionCta text="Chưa chắc loại panel nào phù hợp? Gửi nhu cầu để nhận phương án sơ bộ." /></section>
 
@@ -178,13 +191,13 @@ export default async function Home() {
 
       <CostEstimator />
 
-      <section id="bao-gia" className="section pricing reveal"><div><p className="kicker">Ngân sách minh bạch</p><h2>Báo giá nhà tiền chế panel tham khảo theo m2</h2><p>Giá thay đổi theo vật tư, nền móng, chiều cao, loại lõi panel và mức hoàn thiện.</p></div><div className="price-table" role="table" aria-label="Bảng giá tham khảo">{managedPricing.map(([name, price, note]) => <div className="price-row" role="row" key={name}><strong>{name}</strong><span>{price}</span><p>{note}</p></div>)}</div></section>
+      <section id="bao-gia" className="section pricing reveal"><div><p className="kicker">Ngân sách minh bạch</p><h2>Báo giá nhà tiền chế panel tham khảo theo m2</h2><p>Giá thay đổi theo vật tư, nền móng, chiều cao, loại lõi panel và mức hoàn thiện.</p></div><div className="price-table" role="table" aria-label="Bảng giá tham khảo">{managedPricing.map(([name, price, note], index) => <div className={`price-row ${index === 1 ? "is-recommended" : ""}`} role="row" key={name}><div className="price-name">{index === 1 ? <span className="price-badge">Khuyến nghị</span> : null}<strong>{name}</strong>{index === 1 ? <small>Phương án cân bằng chi phí, khả năng cách nhiệt và mức hoàn thiện.</small> : null}</div><span>{price}</span><p>{note}</p></div>)}</div></section>
 
-      <section className="section comparison-table-section reveal"><div className="section-stack"><p className="kicker">So sánh giải pháp</p><h2>Nhà panel và xây dựng truyền thống khác nhau thế nào?</h2></div><div className="comparison-table" role="table"><div className="comparison-row comparison-head" role="row"><strong>Tiêu chí</strong><strong>Nhà panel</strong><strong>Xây truyền thống</strong></div>{[["Thời gian thi công", "7-45 ngày", "3-12 tháng"], ["Chi phí tham khảo", "Từ 1.6tr/m²", "Từ 3.5tr/m²"], ["Mở rộng dễ dàng", "yes", "no"], ["Cách nhiệt", "yes", "Trung bình"], ["Bảo trì", "Thấp", "Cao hơn"]].map(([label, panel, traditional]) => <div className="comparison-row" role="row" key={label}><span>{label}</span><span>{panel === "yes" ? <Check size={20} weight="bold" /> : panel}</span><span>{traditional === "no" ? <X size={20} weight="bold" /> : traditional}</span></div>)}</div><SectionCta text="Cần so sánh theo mặt bằng thực tế? Nhận tư vấn miễn phí từ đội kỹ thuật." /></section>
+      <section className="section comparison-table-section reveal"><div className="section-stack"><p className="kicker">So sánh giải pháp</p><h2>Nhà panel và xây dựng truyền thống khác nhau thế nào?</h2></div><div className="comparison-table" role="table"><div className="comparison-row comparison-head" role="row"><strong>Tiêu chí</strong><strong className="comparison-panel-head">Nhà panel<small>Phù hợp khi cần triển khai nhanh</small></strong><strong>Xây truyền thống</strong></div>{[["Thời gian thi công", "7-45 ngày", "3-12 tháng"], ["Chi phí tham khảo", "Từ 1.6tr/m²", "Từ 3.5tr/m²"], ["Mở rộng dễ dàng", "yes", "no"], ["Cách nhiệt", "yes", "Trung bình"], ["Bảo trì", "Thấp", "Cao hơn"]].map(([label, panel, traditional]) => <div className="comparison-row" role="row" key={label}><span>{label}</span><span className="panel-choice">{panel === "yes" ? <Check size={20} weight="bold" /> : panel}</span><span>{traditional === "no" ? <X size={20} weight="bold" /> : traditional}</span></div>)}</div><p className="comparison-note">Nhà panel thường phù hợp khi cần chủ động tiến độ và ngân sách; phương án cuối vẫn cần đối chiếu công năng, nền móng và yêu cầu kỹ thuật thực tế.</p><SectionCta text="Cần so sánh theo mặt bằng thực tế? Nhận tư vấn miễn phí từ đội kỹ thuật." /></section>
 
       <section className="section capability reveal"><div className="capability-copy"><p className="kicker">Năng lực triển khai</p><h2>Đội thi công quen vật tư, quen tiến độ, quen mặt bằng khó</h2><p>Chúng tôi bóc tách khối lượng, tư vấn lõi panel, phối hợp xưởng gia công và đội lắp đặt để giảm phát sinh tại công trình.</p></div><div className="stats">{managedStats.slice(0, 3).map((item) => <div className="stat" key={item.label}><strong data-counter data-target={item.value.replace(/\D/g, "") || "0"}>0</strong><span>{item.label}</span></div>)}</div></section>
 
-      <section className="section faq reveal" id="faq"><div className="section-stack narrow"><p className="kicker">Câu hỏi thường gặp</p><h2>Những điều cần biết trước khi thi công nhà tiền chế panel</h2></div><p className="mobile-swipe-hint" aria-hidden="true">Vuốt để xem thêm câu hỏi <ArrowRight size={16} weight="bold" /></p><div className="faq-list mobile-swipe-list">{managedFaqs.map(([question, answer]) => <article className="faq-item" key={question}><button className="tooltip-top" type="button" aria-expanded="false" data-tooltip="Bấm để xem câu trả lời">{question}</button><p>{answer}</p></article>)}</div><SectionCta text="Còn câu hỏi khác về giải pháp panel? Đội ngũ sẽ phản hồi trong thời gian sớm nhất." /></section>
+      <section className="section faq reveal" id="faq"><div className="section-stack narrow"><p className="kicker">Câu hỏi thường gặp</p><h2>Những điều cần biết trước khi thi công nhà tiền chế panel</h2></div><FaqList items={managedFaqs} /><SectionCta text="Còn câu hỏi khác về giải pháp panel? Đội ngũ sẽ phản hồi trong thời gian sớm nhất." /></section>
 
       <section id="lien-he" className="section final-cta reveal"><div><p className="kicker">Khảo sát và báo giá</p><h2>Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ</h2><p>Hotline: {business.phoneDisplay}. Email: {business.email}.</p><p className="cta-trust cta-trust-on-dark">Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát</p><div className="contact-links"><a className="primary-btn tooltip-top" href={`tel:${business.phone}`} data-tooltip="Gọi trực tiếp để trao đổi nhu cầu">Gọi tư vấn</a><a className="secondary-btn tooltip-top" href={`mailto:${business.email}`} data-tooltip="Gửi bản vẽ hoặc yêu cầu qua email">Gửi bản vẽ</a></div></div><form className="contact-form" action={`mailto:${business.email}`} method="post" encType="text/plain"><label>Họ tên<input name="name" placeholder="Nguyễn Văn A" required /></label><label>Số điện thoại<input name="phone" placeholder={business.phoneDisplay} required /></label><label>Nhu cầu<textarea name="message" placeholder="Diện tích, địa điểm, loại công trình" rows={4} /></label><button className="primary-btn tooltip-top" type="submit" data-tooltip="Gửi thông tin để đội ngũ liên hệ lại">Nhận tư vấn</button></form></section>
 

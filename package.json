@@ -4,7 +4,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "cms:seed-defaults": "node --env-file=.env scripts/seed-cms-defaults.mjs"
+    "cms:seed-defaults": "node --env-file=.env scripts/seed-cms-defaults.mjs",
+    "cms:import-material-brands": "node --env-file=.env scripts/import-material-brands.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

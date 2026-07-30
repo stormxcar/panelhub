@@ -15,6 +15,17 @@ const imageItemPreview = {
   }
 };
 
+const materialBrandPreview = {
+  select: { title: "name", subtitle: "category", logoUrl: "logoUrl" },
+  prepare({ title, subtitle, logoUrl }: { title?: string; subtitle?: string; logoUrl?: string }) {
+    return {
+      title: title || "Thương hiệu vật tư",
+      subtitle: subtitle || "Chưa phân nhóm vật tư",
+      media: logoUrl ? createElement("img", { src: logoUrl, alt: "", style: { width: "100%", height: "100%", objectFit: "contain", padding: "4px" } }) : undefined
+    };
+  }
+};
+
 export default defineConfig({
   name: "panedninhthuan",
   title: "PANED Ninh Thuận",
@@ -69,6 +80,7 @@ export default defineConfig({
       defineField({ name: "heroCtaLabel", title: "Nhãn CTA", type: "string", fieldset: "hero", initialValue: "Nhận tư vấn" }),
       defineField({ name: "heroCtaHref", title: "Liên kết CTA", type: "string", fieldset: "hero", initialValue: "#lien-he" }),
       defineField({ name: "stats", title: "Số liệu năng lực", type: "array", fieldset: "trust", of: [defineArrayMember({ type: "object", fields: [defineField({ name: "value", title: "Số liệu", type: "string" }), defineField({ name: "label", title: "Nhãn", type: "string" })] })] }),
+      defineField({ name: "materialBrands", title: "Thương hiệu vật tư tham khảo", description: "Logo và nội dung hiển thị trong dải vật tư. Có thể kéo thả logo mới hoặc giữ URL hiện tại. Danh mục này không tự khẳng định quan hệ đại lý.", type: "array", fieldset: "trust", of: [defineArrayMember({ type: "object", preview: materialBrandPreview, fields: [defineField({ name: "name", title: "Tên thương hiệu", type: "string", validation: (rule) => rule.required() }), defineField({ name: "logo", title: "Logo mới tải lên", type: "image", options: { hotspot: false } }), defineField({ name: "logoUrl", title: "URL logo hiện tại", type: "string", components: { input: CloudinaryImageInput } }), defineField({ name: "category", title: "Nhóm vật tư", type: "string" }), defineField({ name: "summary", title: "Giới thiệu ngắn", type: "text", rows: 2 }), defineField({ name: "material", title: "Loại vật tư sử dụng", type: "text", rows: 2 }), defineField({ name: "benefit", title: "Lợi ích cho công trình", type: "text", rows: 2 })] })], validation: (rule) => rule.max(24).warning("Nên giữ tối đa 24 thương hiệu để dải hiển thị gọn.") }),
       defineField({ name: "testimonials", title: "Đánh giá khách hàng", type: "array", fieldset: "trust", of: [defineArrayMember({ type: "object", fields: [defineField({ name: "name", title: "Tên", type: "string" }), defineField({ name: "role", title: "Vai trò / địa điểm", type: "string" }), defineField({ name: "quote", title: "Nội dung", type: "text" })] })] }),
       defineField({ name: "services", title: "6 card dịch vụ", description: "Mỗi card gồm tiêu đề, nhãn, mô tả và ảnh preview/upload.", type: "array", fieldset: "services", of: [defineArrayMember({ type: "object", preview: imageItemPreview, fields: [defineField({ name: "title", title: "Tiêu đề", type: "string" }), defineField({ name: "tag", title: "Nhãn", type: "string" }), defineField({ name: "description", title: "Mô tả", type: "text" }), defineField({ name: "image", title: "Ảnh mới tải lên", type: "image", options: { hotspot: true } }), defineField({ name: "imageUrl", title: "Ảnh Cloudinary hiện tại", type: "string", components: { input: CloudinaryImageInput } })] })] }),
       defineField({ name: "anatomy", title: "Nội dung và ảnh cấu tạo", type: "object", fieldset: "anatomy", fields: [defineField({ name: "title", title: "Tiêu đề", type: "string" }), defineField({ name: "description", title: "Mô tả", type: "text" }), defineField({ name: "image", title: "Ảnh mới tải lên", type: "image", options: { hotspot: true } }), defineField({ name: "imageUrl", title: "Ảnh Cloudinary hiện tại", type: "string", components: { input: CloudinaryImageInput } }), defineField({ name: "panelTypes", title: "Các loại panel", type: "array", of: [defineArrayMember({ type: "object", fields: [defineField({ name: "name", title: "Tên loại panel", type: "string" }), defineField({ name: "description", title: "Mô tả", type: "text" })] })] })] }),
