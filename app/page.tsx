@@ -21,7 +21,7 @@ import { CostEstimator } from "../components/CostEstimator";
 import { FaqList } from "../components/FaqList";
 import { HeroGallery } from "../components/HeroGallery";
 import { LandingMotion, MobileNav, ScrollTop, ThemeToggle } from "../components/LandingMotion";
-import { fallbackMaterialBrands, MaterialBrands } from "../components/MaterialBrands";
+import { MaterialBrands } from "../components/MaterialBrands";
 import { TestimonialsCarousel } from "../components/TestimonialsCarousel";
 import { PortfolioFilter, type PortfolioProject } from "../components/PortfolioFilter";
 import { VideoGallery } from "../components/VideoGallery";
@@ -139,10 +139,7 @@ export default async function Home() {
   const managedVideos = managedHome?.videos?.length ? managedHome.videos.map((item) => ({ ...item, description: item.description ?? "Video công trình PANED" })) : site.videos;
   const managedPricing = managedHome?.pricing?.length ? managedHome.pricing.map((item) => [item.name, item.price, item.note]) : [["Gói cơ bản", "Từ 1.650.000đ/m2", "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn"], ["Gói cách nhiệt tốt", "Từ 2.150.000đ/m2", "Panel PU dày hơn, xử lý mối nối kỹ hơn"], ["Gói nhà xưởng", "Theo bản vẽ", "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu"]];
   const managedStats = managedHome?.stats?.length ? managedHome.stats.filter((item) => item.value && item.label).map((item) => ({ value: item.value!, label: item.label! })) : stats;
-  const managedMaterialBrands = managedHome?.materialBrands?.length ? managedHome.materialBrands.map((item, index) => {
-    const fallback = fallbackMaterialBrands.find((brand) => brand.name === item.name) || fallbackMaterialBrands[index % fallbackMaterialBrands.length];
-    return { id: item._key || fallback.id, name: item.name || fallback.name, logo: item.logoUrl || fallback.logo, category: item.category || fallback.category, summary: item.summary || fallback.summary, material: item.material || fallback.material, benefit: item.benefit || fallback.benefit };
-  }).filter((item) => Boolean(item.name && item.logo)) : fallbackMaterialBrands;
+  const managedMaterialBrands = managedHome?.materialBrands?.filter((item) => item._key && item.name && item.logoUrl && item.category && item.summary && item.material && item.benefit).map((item) => ({ id: item._key!, name: item.name!, logo: item.logoUrl!, category: item.category!, summary: item.summary!, material: item.material!, benefit: item.benefit! }));
   const managedTestimonials = managedHome?.testimonials?.length ? managedHome.testimonials.filter((item) => item.name && item.role && item.quote).map((item) => ({ name: item.name!, role: item.role!, quote: item.quote! })) : testimonials.map(([name, role, quote]) => ({ name, role, quote }));
   const managedPanelTypes = managedHome?.anatomy?.panelTypes?.length ? managedHome.anatomy.panelTypes.filter((item) => item.name && item.description).map((item) => ({ name: item.name!, description: item.description! })) : panelTypes;
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: managedFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
