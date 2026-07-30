@@ -3429,14 +3429,33 @@ html[data-theme="dark"] .footer-social .social-tiktok:hover {
   }
 
   .services-bento {
-    grid-template-areas:
-      "service-a service-b"
-      "service-a service-c"
-      "service-d service-c"
-      "service-d service-e"
-      "service-f service-f";
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(5, minmax(180px, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(300px, 44vw);
+    grid-template-areas: none;
+    grid-template-columns: none;
+    grid-template-rows: auto;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 8px 0 22px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .services-bento::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-card,
+  .service-card:nth-child(1),
+  .service-card:nth-child(2),
+  .service-card:nth-child(3),
+  .service-card:nth-child(4),
+  .service-card:nth-child(5),
+  .service-card:nth-child(6) {
+    grid-area: auto;
+    min-height: 390px;
+    scroll-snap-align: start;
   }
 
   .portfolio-projects {

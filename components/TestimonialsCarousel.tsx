@@ -44,7 +44,7 @@ export function TestimonialsCarousel({ items }: { items: Testimonial[] }) {
 
   return <div className={`testimonials-carousel ${isCarousel ? "is-carousel" : ""}`}>
     <div className="testimonials-track" ref={trackRef} aria-label="Đánh giá từ khách hàng">
-      {items.map((item) => <article className="testimonial-card" key={`${item.name}-${item.role}`}><div className="stars" aria-label="5 trên 5 sao">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} weight="fill" />)}</div><p>“{item.quote}”</p><strong>{item.name}</strong><span>{item.role}</span></article>)}
+      {items.map((item) => <article className="testimonial-card" key={`${item.name}-${item.role}`}><div className="stars" role="img" aria-label="Đánh giá 5 trên 5 sao">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} weight="fill" />)}</div><p>“{item.quote}”</p><strong>{item.name}</strong><span>{item.role}</span></article>)}
     </div>
     {isCarousel ? <div className="testimonial-controls" aria-label="Điều khiển đánh giá"><button type="button" onClick={() => move(-1)} disabled={!canGoBack} aria-label="Xem đánh giá trước"><CaretLeft size={19} weight="bold" /></button><button type="button" onClick={() => move(1)} disabled={!canGoNext} aria-label="Xem đánh giá tiếp theo"><CaretRight size={19} weight="bold" /></button></div> : null}
   </div>;
