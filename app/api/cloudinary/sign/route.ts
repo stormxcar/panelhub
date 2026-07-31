@@ -6,6 +6,8 @@ const rateWindowMs = 10 * 60 * 1000;
 const maxRequestsPerWindow = 5;
 const maxVideoBytes = 50 * 1024 * 1024;
 const allowedVideoFormats = ["mp4", "webm", "mov"];
+const maxImageBytes = 10 * 1024 * 1024;
+const allowedImageFormats = ["jpg", "jpeg", "png", "webp", "avif"];
 const rateLimits = new Map<string, { count: number; resetAt: number }>();
 
 function corsHeaders(origin: string | null): Record<string, string> {
@@ -55,9 +57,7 @@ export async function POST(request: NextRequest) {
     return new NextResponse("Expected application/json", { status: 415, headers: { ...corsHeaders(origin), ...limit.headers } });
   }
   const body = await request.json().catch(() => null) as { resourceType?: string } | null;
-  if (body?.resourceType !== "video") {
-    return new NextResponse("Only video uploads are allowed", { status: 400, headers: { ...corsHeaders(origin), ...limit.headers } });
-  }
+  if (body?.resourceType !== "video" && body?.resourceType !== "image") return new NextResponse("Unsupported upload type", { status: 400, headers: { ...corsHeaders(origin), ...limit.headers } });
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
@@ -66,12 +66,14 @@ export async function POST(request: NextRequest) {
   if (!cloudName || !apiKey || !apiSecret) return new NextResponse("Cloudinary is not configured", { status: 500 });
   if (!/^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*$/.test(rootFolder)) return new NextResponse("Invalid Cloudinary folder configuration", { status: 500 });
 
-  const folder = `${rootFolder}/studio-videos`;
+  const isVideo = body.resourceType === "video";
+  const folder = `${rootFolder}/${isVideo ? "studio-videos" : "studio-images"}`;
   const timestamp = Math.floor(Date.now() / 1000);
-  const allowedFormats = allowedVideoFormats.join(",");
-  const signature = createHash("sha1").update(`allowed_formats=${allowedFormats}&folder=${folder}&max_file_size=${maxVideoBytes}&timestamp=${timestamp}${apiSecret}`).digest("hex");
+  const allowedFormats = (isVideo ? allowedVideoFormats : allowedImageFormats).join(",");
+  const maxFileBytes = isVideo ? maxVideoBytes : maxImageBytes;
+  const signature = createHash("sha1").update(`allowed_formats=${allowedFormats}&folder=${folder}&max_file_size=${maxFileBytes}&timestamp=${timestamp}${apiSecret}`).digest("hex");
   return NextResponse.json(
-    { cloudName, apiKey, folder, timestamp, signature, allowedFormats, maxFileBytes: maxVideoBytes },
+    { cloudName, apiKey, folder, timestamp, signature, allowedFormats, maxFileBytes },
     { headers: { ...corsHeaders(origin), ...limit.headers, "Cache-Control": "no-store" } }
   );
 }
