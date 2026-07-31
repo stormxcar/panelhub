@@ -44,7 +44,7 @@ export type ManagedSiteSettings = {
   footerDescription?: string;
 };
 
-const siteSettingsQuery = `*[_type == "siteSettings"][0]{name,phone,email,address,workingHours,taxCode,zaloUrl,messengerUrl,facebookUrl,youtubeUrl,tiktokUrl,mapUrl,footerDescription,"logoTextUrl":coalesce(logoText.asset->url,logoTextUrl),"logoMarkUrl":coalesce(logoMark.asset->url,logoMarkUrl)}`;
+const siteSettingsQuery = `*[_type == "siteSettings"][0]{name,phone,email,address,workingHours,taxCode,zaloUrl,messengerUrl,facebookUrl,youtubeUrl,tiktokUrl,mapUrl,footerDescription,"logoTextUrl":coalesce(logoTextUrl,logoText.asset->url),"logoMarkUrl":coalesce(logoMarkUrl,logoMark.asset->url)}`;
 
 export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | null> {
   try {
@@ -61,7 +61,7 @@ export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | nu
 export async function getManagedHome(): Promise<ManagedHome | null> {
   try {
     return await sanityClient.fetch<ManagedHome | null>(
-      `*[_type == "homePage"][0]{_updatedAt,heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl)},stats[]{_key,value,label},materialBrands[]{_key,name,"logoUrl":coalesce(logo.asset->url,logoUrl),category,summary,material,benefit},testimonials[]{_key,name,role,quote},services[]{_key,title,tag,description,"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl)},anatomy{title,description,"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl)},processSteps[]{_key,title,description,"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl)},projects[]{_key,title,category,description,"imageUrl":coalesce(imageCloudinaryUrl,image.asset->url,imageUrl)},faqs[]{_key,question,answer},videos[]{_key,title,url,description,captionUrl},pricing[]{_key,name,price,note},footerDescription,seoTitle,seoDescription}`,
+      `*[_type == "homePage"][0]{_updatedAt,heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},stats[]{_key,value,label},materialBrands[]{_key,name,"logoUrl":coalesce(logoUrl,logo.asset->url),category,summary,material,benefit},testimonials[]{_key,name,role,quote},services[]{_key,title,tag,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},anatomy{title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},processSteps[]{_key,title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},projects[]{_key,title,category,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},faqs[]{_key,question,answer},videos[]{_key,title,url,description,captionUrl},pricing[]{_key,name,price,note},footerDescription,seoTitle,seoDescription}`,
       {},
       { next: { revalidate: 3600, tags: ["sanity-home"] } }
     );
