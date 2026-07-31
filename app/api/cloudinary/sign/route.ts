@@ -71,7 +71,9 @@ export async function POST(request: NextRequest) {
   const timestamp = Math.floor(Date.now() / 1000);
   const allowedFormats = (isVideo ? allowedVideoFormats : allowedImageFormats).join(",");
   const maxFileBytes = isVideo ? maxVideoBytes : maxImageBytes;
-  const signature = createHash("sha1").update(`allowed_formats=${allowedFormats}&folder=${folder}&max_file_size=${maxFileBytes}&timestamp=${timestamp}${apiSecret}`).digest("hex");
+  // `max_file_size` is an upload-preset setting, not a signed Upload API parameter.
+  // Sending it in the browser request makes Cloudinary reject otherwise valid uploads.
+  const signature = createHash("sha1").update(`allowed_formats=${allowedFormats}&folder=${folder}&timestamp=${timestamp}${apiSecret}`).digest("hex");
   return NextResponse.json(
     { cloudName, apiKey, folder, timestamp, signature, allowedFormats, maxFileBytes },
     { headers: { ...corsHeaders(origin), ...limit.headers, "Cache-Control": "no-store" } }
