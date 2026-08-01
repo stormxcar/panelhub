@@ -6,5 +6,6 @@ node_modules/
 !.env.example
 .agents/
 /private-docs/
+.docx-read/
 dist/
 studio/.sanity/

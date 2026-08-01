@@ -1,4 +1,5 @@
 import { createClient } from "next-sanity";
+import type { ConsultationFormSettings } from "./consultation/types";
 
 export const sanityClient = createClient({
   projectId: "syr5q4gg",
@@ -65,6 +66,16 @@ export async function getManagedHome(): Promise<ManagedHome | null> {
       {},
       { next: { revalidate: 3600, tags: ["sanity-home"] } }
     );
+  } catch {
+    return null;
+  }
+}
+
+const consultationFormSettingsQuery = `*[_type == "consultationFormSettings"][0]{eyebrow,heading,description,hotline,displayEmail,commitmentText,nameLabel,namePlaceholder,phoneLabel,phonePlaceholder,requirementLabel,requirementPlaceholder,submitButtonText,callButtonText,drawingButtonText,notificationEmail,emailSubjectPrefix,successMessage,errorMessage,validationMessage,isEnabled,enableDrawingUpload,enableGoogleSheets,enableEmailNotification}`;
+
+export async function getConsultationFormSettings(): Promise<ConsultationFormSettings | null> {
+  try {
+    return await sanityClient.fetch<ConsultationFormSettings | null>(consultationFormSettingsQuery, {}, { next: { revalidate: 3600, tags: ["sanity-consultation-form"] } });
   } catch {
     return null;
   }

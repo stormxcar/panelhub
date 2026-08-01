@@ -18,6 +18,7 @@ import {
   YoutubeLogo
 } from "@phosphor-icons/react/dist/ssr";
 import { CostEstimator } from "../components/CostEstimator";
+import { ConsultationForm } from "../components/ConsultationForm";
 import { FaqList } from "../components/FaqList";
 import { HeroGallery } from "../components/HeroGallery";
 import { LandingMotion, MobileNav, ScrollTop, ThemeToggle } from "../components/LandingMotion";
@@ -26,7 +27,7 @@ import { TestimonialsCarousel } from "../components/TestimonialsCarousel";
 import { PortfolioFilter, type PortfolioProject } from "../components/PortfolioFilter";
 import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
-import { getManagedHome, getManagedSiteSettings } from "../lib/sanity";
+import { getConsultationFormSettings, getManagedHome, getManagedSiteSettings } from "../lib/sanity";
 
 export const dynamic = "force-dynamic";
 
@@ -107,7 +108,7 @@ function SectionCta({ text }: { text: string }) {
 }
 
 export default async function Home() {
-  const [managedHome, managedSettings] = await Promise.all([getManagedHome(), getManagedSiteSettings()]);
+  const [managedHome, managedSettings, managedConsultation] = await Promise.all([getManagedHome(), getManagedSiteSettings(), getConsultationFormSettings()]);
   const logoText = managedSettings?.logoTextUrl || site.branding.logoText;
   const logoMark = managedSettings?.logoMarkUrl || site.branding.logoMark;
   const business = {
@@ -126,6 +127,19 @@ export default async function Home() {
     mapUrl: managedSettings?.mapUrl || site.location.mapUrl
   };
   const footerDescription = managedSettings?.footerDescription || managedHome?.footerDescription || "Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép.";
+  const consultationSettings = {
+    eyebrow: "Khảo sát và báo giá",
+    heading: "Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ",
+    description: "Đội ngũ sẽ tiếp nhận thông tin và phản hồi phương án phù hợp với mặt bằng của bạn.",
+    hotline: business.phoneDisplay,
+    displayEmail: business.email,
+    commitmentText: "Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát",
+    nameLabel: "Họ tên", namePlaceholder: "Nguyễn Văn A", phoneLabel: "Số điện thoại", phonePlaceholder: business.phoneDisplay,
+    requirementLabel: "Nhu cầu", requirementPlaceholder: "Diện tích, địa điểm, loại công trình", submitButtonText: "Nhận tư vấn", callButtonText: "Gọi tư vấn", drawingButtonText: "Gửi bản vẽ",
+    successMessage: "Đã gửi yêu cầu tư vấn thành công.", errorMessage: "Không thể gửi yêu cầu. Vui lòng thử lại hoặc gọi trực tiếp.", validationMessage: "Vui lòng kiểm tra lại thông tin đã nhập.",
+    isEnabled: true, enableDrawingUpload: false, enableGoogleSheets: true, enableEmailNotification: true,
+    ...managedConsultation
+  };
   const heroSlides = managedHome?.heroImages?.length ? managedHome.heroImages.map((item, index) => ({ src: item.imageUrl || site.images.heroGallery[index % site.images.heroGallery.length].src, alt: item.label || site.images.heroGallery[index % site.images.heroGallery.length].alt, label: item.label || site.images.heroGallery[index % site.images.heroGallery.length].label })) : site.images.heroGallery;
   const fallbackServices = services.map(([title, description, tag], index) => ({ title, description, tag, imageUrl: site.images.services[index] }));
   const managedServices = managedHome?.services?.length ? managedHome.services.map((item, index) => ({ title: item.title, description: item.description, tag: item.tag || fallbackServices[index % fallbackServices.length].tag, imageUrl: item.imageUrl || fallbackServices[index % fallbackServices.length].imageUrl })) : fallbackServices;
@@ -196,7 +210,7 @@ export default async function Home() {
 
       <section className="section faq reveal" id="faq"><div className="section-stack narrow"><p className="kicker">Câu hỏi thường gặp</p><h2>Những điều cần biết trước khi thi công nhà tiền chế panel</h2></div><FaqList items={managedFaqs} /><SectionCta text="Còn câu hỏi khác về giải pháp panel? Đội ngũ sẽ phản hồi trong thời gian sớm nhất." /></section>
 
-      <section id="lien-he" className="section final-cta reveal"><div><p className="kicker">Khảo sát và báo giá</p><h2>Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ</h2><p>Hotline: {business.phoneDisplay}. Email: {business.email}.</p><p className="cta-trust cta-trust-on-dark">Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát</p><div className="contact-links"><a className="primary-btn tooltip-top" href={`tel:${business.phone}`} data-tooltip="Gọi trực tiếp để trao đổi nhu cầu">Gọi tư vấn</a><a className="secondary-btn tooltip-top" href={`mailto:${business.email}`} data-tooltip="Gửi bản vẽ hoặc yêu cầu qua email">Gửi bản vẽ</a></div></div><form className="contact-form" action={`mailto:${business.email}`} method="post" encType="text/plain"><label>Họ tên<input name="name" placeholder="Nguyễn Văn A" required /></label><label>Số điện thoại<input name="phone" placeholder={business.phoneDisplay} required /></label><label>Nhu cầu<textarea name="message" placeholder="Diện tích, địa điểm, loại công trình" rows={4} /></label><button className="primary-btn tooltip-top" type="submit" data-tooltip="Gửi thông tin để đội ngũ liên hệ lại">Nhận tư vấn</button></form></section>
+      <section id="lien-he" className="section final-cta reveal"><div><p className="kicker">{consultationSettings.eyebrow}</p><h2>{consultationSettings.heading}</h2><p>{consultationSettings.description}</p><p>Hotline: {consultationSettings.hotline || business.phoneDisplay}. Email: {consultationSettings.displayEmail || business.email}.</p><p className="cta-trust cta-trust-on-dark">{consultationSettings.commitmentText}</p><div className="contact-links"><a className="primary-btn tooltip-top" href={`tel:${business.phone}`} data-tooltip="Gọi trực tiếp để trao đổi nhu cầu">{consultationSettings.callButtonText}</a>{consultationSettings.enableDrawingUpload ? <a className="secondary-btn tooltip-top" href={`mailto:${business.email}`} data-tooltip="Gửi bản vẽ hoặc yêu cầu qua email">{consultationSettings.drawingButtonText}</a> : null}</div></div><ConsultationForm settings={consultationSettings} phonePlaceholder={consultationSettings.phonePlaceholder || business.phoneDisplay} /></section>
 
       <footer className="footer"><div className="footer-brand"><div className="footer-brand-lockup"><Image src={logoMark} alt="" width={48} height={48} /><span>{business.name}<small>Ninh Thuận</small></span></div><p>{footerDescription}</p><div className="footer-social"><a className="social-facebook" href={business.facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo size={20} weight="fill" /></a><a className="social-youtube" href={business.youtubeUrl} target="_blank" rel="noreferrer" aria-label="YouTube"><YoutubeLogo size={20} weight="fill" /></a><a className="social-tiktok" href={business.tiktokUrl} target="_blank" rel="noreferrer" aria-label="TikTok"><TiktokLogo size={20} weight="fill" /></a></div></div><div className="footer-column"><strong>Dịch vụ</strong><a href="#cau-tao">Panel PU, EPS và Rockwool</a><a href="#bao-gia">Báo giá nhà tiền chế panel</a><a href="#du-an">Dự án thi công tham khảo</a></div><div className="footer-column"><strong>Liên hệ</strong><a href={business.mapUrl} target="_blank" rel="noreferrer">{business.address}</a><a href={`tel:${business.phone}`}>Hotline: {business.phoneDisplay}</a><a href={`mailto:${business.email}`}>{business.email}</a><span>{business.workingHours}</span></div><div className="footer-column"><strong>Thông tin</strong><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/dieu-khoan-su-dung">Điều khoản sử dụng</a><span>Khu vực: {site.location.label}</span></div></footer>
       <div className="footer-legal"><span>© {new Date().getFullYear()} {business.name}. All rights reserved.</span><span>MST: {business.taxCode}</span></div>

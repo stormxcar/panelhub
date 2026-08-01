@@ -35,7 +35,12 @@ export default defineConfig({
   projectId: "syr5q4gg",
   dataset: "production",
   basePath: "/admin",
-  plugins: [structureTool()],
+  plugins: [structureTool({ structure: (S) => S.list().title("PANED Ninh Thuận").items([
+    S.listItem().title("Thông tin doanh nghiệp").child(S.document().schemaType("siteSettings").documentId("siteSettings").title("Thông tin doanh nghiệp")),
+    S.listItem().title("Trang chủ").child(S.document().schemaType("homePage").documentId("homePage").title("Trang chủ")),
+    S.listItem().title("Cấu hình form tư vấn").child(S.document().schemaType("consultationFormSettings").documentId("consultationFormSettings").title("Cấu hình form tư vấn")),
+    S.documentTypeListItem("legalPage").title("Trang pháp lý")
+  ]) })],
   schema: { types: [
     defineType({ name: "siteSettings", title: "Thông tin doanh nghiệp", type: "document", initialValue: { name: "PANED", phone: "0946657257", email: "phamhoangbaoanh87@gmail.com", address: "Phường Phan Rang, tỉnh Khánh Hòa", workingHours: "Thứ 2 - Thứ 7: 7:30 - 17:30", taxCode: "0123456789", zaloUrl: "https://zalo.me/0946657257", messengerUrl: "https://m.me/your-page", facebookUrl: "https://facebook.com/paned", youtubeUrl: "https://youtube.com/@paned", tiktokUrl: "https://tiktok.com/@paned", mapUrl: "https://maps.google.com", logoTextUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_text_i7kfp4.png", logoMarkUrl: "https://res.cloudinary.com/dzwjgfd7t/image/upload/v1785221937/panelhub/logo_no_text_oiboay.png", footerDescription: "Đơn vị tư vấn, thiết kế và thi công nhà tiền chế tấm panel cho nhà ở, nhà xưởng, kho lạnh, văn phòng công trình và mô hình lưu trú lắp ghép." }, fields: [
       defineField({ name: "name", title: "Tên thương hiệu", type: "string", validation: (rule) => rule.required() }),
@@ -63,6 +68,32 @@ export default defineConfig({
       defineField({ name: "sections", title: "Nội dung", type: "array", of: [{ type: "object", fields: [defineField({ name: "heading", title: "Tiêu đề mục", type: "string" }), defineField({ name: "body", title: "Nội dung", type: "text" })] }] }),
       defineField({ name: "seoTitle", title: "SEO title", type: "string" }),
       defineField({ name: "seoDescription", title: "SEO description", type: "text" })
+    ] }),
+    defineType({ name: "consultationFormSettings", title: "Cấu hình form tư vấn", type: "document", initialValue: { eyebrow: "Khảo sát và báo giá", heading: "Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ", description: "Đội ngũ sẽ tiếp nhận thông tin và phản hồi phương án phù hợp.", commitmentText: "Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát", nameLabel: "Họ tên", namePlaceholder: "Nguyễn Văn A", phoneLabel: "Số điện thoại", phonePlaceholder: "0946657257", requirementLabel: "Nhu cầu", requirementPlaceholder: "Diện tích, địa điểm, loại công trình", submitButtonText: "Nhận tư vấn", callButtonText: "Gọi tư vấn", drawingButtonText: "Gửi bản vẽ", successMessage: "Đã gửi yêu cầu tư vấn thành công.", errorMessage: "Không thể gửi yêu cầu. Vui lòng thử lại hoặc gọi trực tiếp.", validationMessage: "Vui lòng kiểm tra lại thông tin đã nhập.", isEnabled: true, enableDrawingUpload: false, enableGoogleSheets: true, enableEmailNotification: true }, preview: { select: { title: "heading", enabled: "isEnabled" }, prepare({ title, enabled }: { title?: string; enabled?: boolean }) { return { title: title || "Cấu hình form tư vấn", subtitle: enabled === false ? "Đang tắt form" : "Đang bật form" }; } }, fields: [
+      defineField({ name: "eyebrow", title: "Tiêu đề nhỏ", type: "string", validation: (rule) => rule.required().max(80) }),
+      defineField({ name: "heading", title: "Tiêu đề chính", type: "text", rows: 3, validation: (rule) => rule.required().max(180) }),
+      defineField({ name: "description", title: "Mô tả", type: "text", rows: 3, validation: (rule) => rule.max(300) }),
+      defineField({ name: "hotline", title: "Hotline hiển thị", type: "string", validation: (rule) => rule.max(30) }),
+      defineField({ name: "displayEmail", title: "Email hiển thị", type: "string", validation: (rule) => rule.email() }),
+      defineField({ name: "commitmentText", title: "Nội dung cam kết", type: "text", rows: 2, validation: (rule) => rule.max(240) }),
+      defineField({ name: "nameLabel", title: "Nhãn họ tên", type: "string", validation: (rule) => rule.required().max(60) }),
+      defineField({ name: "namePlaceholder", title: "Placeholder họ tên", type: "string", validation: (rule) => rule.max(100) }),
+      defineField({ name: "phoneLabel", title: "Nhãn số điện thoại", type: "string", validation: (rule) => rule.required().max(60) }),
+      defineField({ name: "phonePlaceholder", title: "Placeholder số điện thoại", type: "string", validation: (rule) => rule.max(30) }),
+      defineField({ name: "requirementLabel", title: "Nhãn nhu cầu", type: "string", validation: (rule) => rule.required().max(60) }),
+      defineField({ name: "requirementPlaceholder", title: "Placeholder nhu cầu", type: "string", validation: (rule) => rule.max(300) }),
+      defineField({ name: "submitButtonText", title: "Nội dung nút gửi", type: "string", validation: (rule) => rule.required().max(60) }),
+      defineField({ name: "callButtonText", title: "Nội dung nút gọi", type: "string", validation: (rule) => rule.required().max(60) }),
+      defineField({ name: "drawingButtonText", title: "Nội dung nút gửi bản vẽ", type: "string", validation: (rule) => rule.max(60) }),
+      defineField({ name: "notificationEmail", title: "Email nhận thông báo", description: "Không phải secret. Nếu bỏ trống, website dùng CONTACT_EMAIL trên Vercel.", type: "string", validation: (rule) => rule.email() }),
+      defineField({ name: "emailSubjectPrefix", title: "Tiền tố tiêu đề email", type: "string", validation: (rule) => rule.max(80) }),
+      defineField({ name: "successMessage", title: "Thông báo gửi thành công", type: "string", validation: (rule) => rule.required().max(240) }),
+      defineField({ name: "errorMessage", title: "Thông báo gửi thất bại", type: "string", validation: (rule) => rule.required().max(240) }),
+      defineField({ name: "validationMessage", title: "Thông báo dữ liệu không hợp lệ", type: "string", validation: (rule) => rule.required().max(240) }),
+      defineField({ name: "isEnabled", title: "Bật form tư vấn", type: "boolean", initialValue: true }),
+      defineField({ name: "enableDrawingUpload", title: "Hiện nút gửi bản vẽ qua email", type: "boolean", initialValue: false }),
+      defineField({ name: "enableGoogleSheets", title: "Lưu vào Google Sheets", type: "boolean", initialValue: true }),
+      defineField({ name: "enableEmailNotification", title: "Gửi email Resend", type: "boolean", initialValue: true, validation: (rule) => rule.custom((value, context) => value === false && context.document?.enableGoogleSheets === false ? "Cần bật ít nhất Google Sheets hoặc Resend." : true) })
     ] }),
     defineType({ name: "homePage", title: "Trang chủ", type: "document", initialValue: { heroTitle: "Nhà tiền chế tấm panel", heroDescription: "Giải pháp xây dựng hiện đại, triển khai gọn và phù hợp nhu cầu sử dụng thực tế." }, fieldsets: [
       { name: "hero", title: "01. Hero — Nhà tiền chế tấm panel", options: { collapsible: true, collapsed: false } },
