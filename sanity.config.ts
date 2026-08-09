@@ -47,12 +47,39 @@ const contentImageBlock = defineArrayMember({
   }
 });
 
+const comparisonTableBlock = defineArrayMember({
+  name: "comparisonTable",
+  title: "Bảng so sánh",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Tiêu đề bảng (không bắt buộc)", type: "string", validation: (rule) => rule.max(140) }),
+    defineField({ name: "leftColumnTitle", title: "Tên cột bên trái", type: "string", initialValue: "Nhà Panel", validation: (rule) => rule.required().max(80) }),
+    defineField({ name: "rightColumnTitle", title: "Tên cột bên phải", type: "string", initialValue: "Xây dựng truyền thống", validation: (rule) => rule.required().max(80) }),
+    defineField({
+      name: "rows",
+      title: "Các hàng so sánh",
+      type: "array",
+      validation: (rule) => rule.required().min(1).max(30),
+      of: [defineArrayMember({
+        type: "object",
+        fields: [
+          defineField({ name: "criterion", title: "Tiêu chí", type: "string", validation: (rule) => rule.required().max(140) }),
+          defineField({ name: "leftValue", title: "Nhà Panel", type: "text", rows: 2, validation: (rule) => rule.required().max(500) }),
+          defineField({ name: "rightValue", title: "Xây dựng truyền thống", type: "text", rows: 2, validation: (rule) => rule.required().max(500) })
+        ],
+        preview: { select: { title: "criterion", subtitle: "leftValue" } }
+      })]
+    })
+  ],
+  preview: { select: { title: "title", rows: "rows" }, prepare({ title, rows }: { title?: string; rows?: unknown[] }) { return { title: title || "Bảng so sánh", subtitle: `${rows?.length || 0} hàng dữ liệu` }; } }
+});
+
 const richTextField = (name: string, title: string) => defineField({
   name,
   title,
-  description: "Soạn như CKEditor: Enter để xuống dòng, dùng heading, danh sách, in đậm/nghiêng, liên kết và chèn ảnh đúng vị trí trong nội dung.",
+  description: "Soạn như CKEditor: Enter để xuống dòng, dùng heading, danh sách, in đậm/nghiêng, liên kết, ảnh và bảng so sánh đúng vị trí trong nội dung.",
   type: "array",
-  of: [defineArrayMember({ type: "block", styles: [{ title: "Thường", value: "normal" }, { title: "Tiêu đề 2", value: "h2" }, { title: "Tiêu đề 3", value: "h3" }, { title: "Trích dẫn", value: "blockquote" }], lists: [{ title: "Danh sách đầu dòng", value: "bullet" }, { title: "Danh sách đánh số", value: "number" }], marks: { decorators: [{ title: "Đậm", value: "strong" }, { title: "Nghiêng", value: "em" }, { title: "Mã", value: "code" }], annotations: [{ name: "link", type: "object", title: "Liên kết", fields: [defineField({ name: "href", title: "URL", type: "url", validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }) }), defineField({ name: "blank", title: "Mở tab mới", type: "boolean", initialValue: false })] }] } }), contentImageBlock]
+  of: [defineArrayMember({ type: "block", styles: [{ title: "Thường", value: "normal" }, { title: "Tiêu đề 2", value: "h2" }, { title: "Tiêu đề 3", value: "h3" }, { title: "Trích dẫn", value: "blockquote" }], lists: [{ title: "Danh sách đầu dòng", value: "bullet" }, { title: "Danh sách đánh số", value: "number" }], marks: { decorators: [{ title: "Đậm", value: "strong" }, { title: "Nghiêng", value: "em" }, { title: "Mã", value: "code" }], annotations: [{ name: "link", type: "object", title: "Liên kết", fields: [defineField({ name: "href", title: "URL", type: "url", validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }) }), defineField({ name: "blank", title: "Mở tab mới", type: "boolean", initialValue: false })] }] } }), contentImageBlock, comparisonTableBlock]
 });
 
 export default defineConfig({

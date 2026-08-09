@@ -2,6 +2,7 @@
 
 import { ArrowUp, List, Moon, Sun, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { SiteSearch } from "./SiteSearch";
 
 export function LandingMotion() {
   useEffect(() => {
@@ -192,7 +193,9 @@ const mobileLinks = [
   ["Liên hệ", "#lien-he"]
 ] as const;
 
-export function MobileNav({ links = mobileLinks }: { links?: readonly (readonly [string, string])[] }) {
+type SearchArticle = { id: string; title: string; description: string; href: string; keywords: string };
+
+export function MobileNav({ links = mobileLinks, searchArticles = [] }: { links?: readonly (readonly [string, string])[]; searchArticles?: SearchArticle[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -251,6 +254,7 @@ export function MobileNav({ links = mobileLinks }: { links?: readonly (readonly 
       </button>
       {isOpen && (
         <nav ref={navRef} className="mobile-menu" id="mobile-menu" aria-label="Điều hướng trên điện thoại">
+          <div className="mobile-menu-search"><SiteSearch articles={searchArticles} inlineLabel="Tìm kiếm trên website" /></div>
           {links.map(([label, href]) => (
             <a href={href} key={href} onClick={() => setIsOpen(false)}>{label}</a>
           ))}

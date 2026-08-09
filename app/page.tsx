@@ -657,7 +657,7 @@ export default async function Home() {
             Nhận báo giá
           </a>
           <ThemeToggle />
-          <MobileNav />
+          <MobileNav searchArticles={searchArticles} />
         </div>
       </nav>
 

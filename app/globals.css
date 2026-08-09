@@ -5635,3 +5635,89 @@ html[data-theme="dark"] .footer-social .social-tiktok:hover {
 .article-card.is-read h2 a::after {
   content: none;
 }
+
+.rich-comparison-table {
+  margin: clamp(26px, 5vw, 42px) 0;
+}
+
+.rich-comparison-table > h3 {
+  margin: 0 0 14px;
+  font-size: clamp(21px, 2.5vw, 28px);
+}
+
+.rich-comparison-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.rich-comparison-table table {
+  width: 100%;
+  min-width: 660px;
+  border-collapse: collapse;
+}
+
+.rich-comparison-table th,
+.rich-comparison-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.rich-comparison-table thead th {
+  color: var(--accent-dark);
+  background: var(--steel-soft);
+  font-weight: 800;
+}
+
+.rich-comparison-table tbody th {
+  width: 27%;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.rich-comparison-table tbody tr:last-child th,
+.rich-comparison-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .nav-actions > .search-trigger {
+    display: none;
+  }
+
+  .mobile-menu-search {
+    padding: 3px;
+  }
+
+  .mobile-menu-search .search-trigger {
+    display: flex;
+    width: 100%;
+    height: 46px;
+    gap: 10px;
+    justify-content: flex-start;
+    padding: 0 13px;
+    border-radius: 8px;
+    color: var(--accent-dark);
+    background: var(--steel-soft);
+    text-align: left;
+  }
+
+  .mobile-menu-search .search-trigger span {
+    font-weight: 800;
+  }
+
+  .rich-comparison-scroll {
+    margin-inline: -2px;
+    border-radius: 10px;
+  }
+
+  .rich-comparison-table th,
+  .rich-comparison-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
