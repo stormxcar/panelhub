@@ -8,7 +8,8 @@
     "cms:import-material-brands": "node --env-file=.env scripts/import-material-brands.mjs",
     "cms:migrate-legal-pages": "node --env-file=.env scripts/migrate-legal-pages.mjs",
     "cms:seed-planning-benefits": "node --env-file=.env scripts/seed-planning-benefits.mjs",
-    "cms:migrate-pricing-rich-text": "node --env-file=.env scripts/migrate-pricing-rich-text.mjs"
+    "cms:migrate-pricing-rich-text": "node --env-file=.env scripts/migrate-pricing-rich-text.mjs",
+    "cms:migrate-service-pages": "node --env-file=.env scripts/migrate-service-pages.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.3.0",

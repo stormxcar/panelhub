@@ -13,7 +13,7 @@ const contentSecurityPolicy = [
   `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net`,
   "script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.sanity.io https://printgo.vn https://banner2.cleanpng.com https://multipanelmexico.com https://file.hstatic.net https://encrypted-tbn0.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net",
+  "img-src 'self' data: blob: https:",
   "media-src 'self' blob: https://res.cloudinary.com",
   "connect-src 'self' https://syr5q4gg.api.sanity.io https://syr5q4gg.apicdn.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net",
   "frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com",
@@ -44,18 +44,7 @@ const nextConfig = {
     ];
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com"
-      },
-      { protocol: "https", hostname: "cdn.sanity.io" },
-      { protocol: "https", hostname: "printgo.vn" },
-      { protocol: "https", hostname: "banner2.cleanpng.com" },
-      { protocol: "https", hostname: "multipanelmexico.com" },
-      { protocol: "https", hostname: "file.hstatic.net" },
-      { protocol: "https", hostname: "encrypted-tbn0.gstatic.com" }
-    ]
+    remotePatterns: [{ protocol: "https", hostname: "**" }]
   }
 };
 

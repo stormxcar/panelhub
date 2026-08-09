@@ -25,11 +25,14 @@ export type ManagedHome = {
   projects?: { title: string; category?: string; description: string; imageUrl?: string }[];
   faqs?: { question: string; answer: string }[];
   videos?: { _key?: string; title: string; url: string; description?: string; captionUrl?: string }[];
-  pricing?: { name: string; price: string; note?: string; details?: RichTextValue }[];
+  pricing?: { _key?: string; name?: string; price?: string; note?: string; details?: RichTextValue }[];
   detailPages?: { anatomy?: DetailPageContent; process?: DetailPageContent; projects?: DetailPageContent; pricing?: DetailPageContent };
   footerDescription?: string; seoTitle?: string; seoDescription?: string;
 };
 export type DetailPageContent = { title?: string; lead?: string; body?: RichTextValue; ctaLabel?: string; ctaHref?: string };
+export type ManagedServicePage = DetailPageContent & { pageKey?: "anatomy" | "process" | "projects" | "pricing"; seoTitle?: string; seoDescription?: string };
+
+const richTextProjection = `[]{...,_type == "contentImage" => {...,"imageUrl":coalesce(imageUrl,image.asset->url)}}`;
 
 export type ManagedSiteSettings = {
   name?: string;
@@ -66,9 +69,21 @@ export async function getManagedSiteSettings(): Promise<ManagedSiteSettings | nu
 export async function getManagedHome(): Promise<ManagedHome | null> {
   try {
     return await sanityClient.fetch<ManagedHome | null>(
-      `*[_type == "homePage"][0]{_updatedAt,heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},stats[]{_key,value,label},materialBrands[]{_key,name,"logoUrl":coalesce(logoUrl,logo.asset->url),category,summary,material,benefit},testimonials[]{_key,name,role,quote},planningBenefits[]{_key,title,description,checkpoints},services[]{_key,title,tag,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},anatomy{title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},processSteps[]{_key,title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},projects[]{_key,title,category,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},faqs[]{_key,question,answer},videos[]{_key,title,url,description,captionUrl},pricing[]{_key,name,price,note,details},detailPages{anatomy{title,lead,body,ctaLabel,ctaHref},process{title,lead,body,ctaLabel,ctaHref},projects{title,lead,body,ctaLabel,ctaHref},pricing{title,lead,body,ctaLabel,ctaHref}},footerDescription,seoTitle,seoDescription}`,
+      `*[_type == "homePage"][0]{_updatedAt,heroTitle,heroDescription,heroCtaLabel,heroCtaHref,heroImages[]{_key,label,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},stats[]{_key,value,label},materialBrands[]{_key,name,"logoUrl":coalesce(logoUrl,logo.asset->url),category,summary,material,benefit},testimonials[]{_key,name,role,quote},planningBenefits[]{_key,title,description,checkpoints},services[]{_key,title,tag,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},anatomy{title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url),panelTypes[]{_key,name,description}},processFeature{"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},processSteps[]{_key,title,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},projects[]{_key,title,category,description,"imageUrl":coalesce(imageUrl,imageCloudinaryUrl,image.asset->url)},faqs[]{_key,question,answer},videos[]{_key,title,url,description,captionUrl},pricing[]{_key,name,price,note,"details":details${richTextProjection}},detailPages{anatomy{title,lead,"body":body${richTextProjection},ctaLabel,ctaHref},process{title,lead,"body":body${richTextProjection},ctaLabel,ctaHref},projects{title,lead,"body":body${richTextProjection},ctaLabel,ctaHref},pricing{title,lead,"body":body${richTextProjection},ctaLabel,ctaHref}},footerDescription,seoTitle,seoDescription}`,
       {},
       { next: { revalidate: 3600, tags: ["sanity-home"] } }
+    );
+  } catch {
+    return null;
+  }
+}
+
+export async function getManagedServicePage(pageKey: ManagedServicePage["pageKey"]): Promise<ManagedServicePage | null> {
+  try {
+    return await sanityClient.fetch<ManagedServicePage | null>(
+      `*[_type == "servicePage" && pageKey == $pageKey][0]{pageKey,title,lead,"body":body${richTextProjection},ctaLabel,ctaHref,seoTitle,seoDescription}`,
+      { pageKey },
+      { next: { revalidate: 3600, tags: ["sanity-service-pages"] } }
     );
   } catch {
     return null;
@@ -90,7 +105,7 @@ export type ManagedArticle = {
   seoDescription?: string;
 };
 
-const articleFields = `_id,_updatedAt,title,"slug":slug.current,excerpt,coverImageUrl,body,tags,featured,publishedAt,seoTitle,seoDescription`;
+const articleFields = `_id,_updatedAt,title,"slug":slug.current,excerpt,coverImageUrl,"body":body${richTextProjection},tags,featured,publishedAt,seoTitle,seoDescription`;
 
 export async function getManagedArticles(): Promise<ManagedArticle[]> {
   try {

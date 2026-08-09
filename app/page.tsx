@@ -459,13 +459,22 @@ export default async function Home() {
         description: item.description ?? "Video công trình PANED",
       }))
     : site.videos;
-  const fallbackPricing: { name: string; price: string; note: string; details?: never }[] = [
-        { name: "Gói cơ bản", price: "Từ 1.650.000đ/m2", note: "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn" },
-        { name: "Gói cách nhiệt tốt", price: "Từ 2.150.000đ/m2", note: "Panel PU dày hơn, xử lý mối nối kỹ hơn" },
-        { name: "Gói nhà xưởng", price: "Theo bản vẽ", note: "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu" },
+  const fallbackPricing: { id: string; name: string; price: string; note: string; details?: never }[] = [
+        { id: "pricing-package-1", name: "Gói cơ bản", price: "Từ 1.650.000đ/m2", note: "Khung thép, mái panel EPS, hoàn thiện tiêu chuẩn" },
+        { id: "pricing-package-2", name: "Gói cách nhiệt tốt", price: "Từ 2.150.000đ/m2", note: "Panel PU dày hơn, xử lý mối nối kỹ hơn" },
+        { id: "pricing-package-3", name: "Gói nhà xưởng", price: "Theo bản vẽ", note: "Khẩu độ lớn, tải trọng và PCCC theo yêu cầu" },
       ];
   const managedPricing = managedHome?.pricing?.length
-    ? managedHome.pricing.map((item) => ({ name: item.name, price: item.price, note: item.note, details: item.details }))
+    ? managedHome.pricing.map((item, index) => {
+        const fallbackPackage = fallbackPricing[index % fallbackPricing.length];
+        return {
+          id: item._key || `pricing-package-${index + 1}`,
+          name: item.name || fallbackPackage.name,
+          price: item.price || fallbackPackage.price,
+          note: item.note || fallbackPackage.note,
+          details: item.details,
+        };
+      })
     : fallbackPricing;
   const managedPlanningBenefits = managedHome?.planningBenefits?.length
     ? managedHome.planningBenefits.map((item, index) => ({
@@ -911,8 +920,8 @@ export default async function Home() {
           role="group"
           aria-label="Các gói báo giá tham khảo"
         >
-          {managedPricing.map(({ name, price, note, details }, index) => (
-            <details className={`price-row price-accordion ${index === 1 ? "is-recommended" : ""}`} key={name}>
+          {managedPricing.map(({ id, name, price, note, details }, index) => (
+            <details className={`price-row price-accordion ${index === 1 ? "is-recommended" : ""}`} key={id}>
               <summary>
               <div className="price-name">
                 {index === 1 ? (

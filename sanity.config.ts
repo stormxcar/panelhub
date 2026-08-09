@@ -1,6 +1,6 @@
 import { defineArrayMember, defineConfig, defineField, defineType } from "sanity";
 import { structureTool } from "sanity/structure";
-import { createElement } from "react";
+import { createElement, type ReactNode } from "react";
 import { CloudinaryVideoInput } from "./sanity/components/cloudinary-video-input";
 import { CloudinaryImageInput } from "./sanity/components/cloudinary-image-input";
 
@@ -27,14 +27,32 @@ const materialBrandPreview = {
   }
 };
 
-const cloudinaryImageUploadField = () => defineField({ name: "imageUrl", title: "Ảnh hiển thị", description: "Dán URL ảnh hoặc chọn file để upload lên Cloudinary. Đây là ảnh duy nhất dùng để thay đổi giao diện.", type: "string", components: { input: CloudinaryImageInput } });
+const cloudinaryImageUploadField = () => defineField({ name: "imageUrl", title: "Ảnh hiển thị", description: "Dán URL ảnh trực tiếp từ nguồn hợp lệ hoặc chọn file để lưu lên Cloudinary. URL ảnh trực tiếp từ Unsplash, Pinterest hay nguồn khác vẫn được chấp nhận.", type: "string", components: { input: CloudinaryImageInput } });
+
+const contentImageBlock = defineArrayMember({
+  name: "contentImage",
+  title: "Ảnh trong nội dung",
+  type: "object",
+  fields: [
+    defineField({ name: "image", title: "Tải ảnh lên Sanity", type: "image", options: { hotspot: true } }),
+    defineField({ name: "imageUrl", title: "Hoặc dán URL / upload Cloudinary", description: "Dán URL ảnh trực tiếp hoặc chọn file để lưu Cloudinary. Nếu có cả hai, URL Cloudinary/URL dán sẽ được ưu tiên.", type: "string", components: { input: CloudinaryImageInput } }),
+    defineField({ name: "alt", title: "Mô tả ảnh (alt)", type: "string", validation: (rule) => rule.required().max(220) }),
+    defineField({ name: "caption", title: "Chú thích ảnh", type: "string", validation: (rule) => rule.max(400) })
+  ],
+  preview: {
+    select: { title: "alt", subtitle: "caption", media: "image", imageUrl: "imageUrl" },
+    prepare({ title, subtitle, media, imageUrl }: { title?: string; subtitle?: string; media?: ReactNode; imageUrl?: string }) {
+      return { title: title || "Ảnh trong nội dung", subtitle: subtitle || "Không có chú thích", media: media || (imageUrl ? createElement("img", { src: imageUrl, alt: "" }) : undefined) };
+    }
+  }
+});
 
 const richTextField = (name: string, title: string) => defineField({
   name,
   title,
-  description: "Soạn như trình soạn thảo: Enter để xuống dòng, dùng danh sách đầu dòng/đánh số, in đậm, in nghiêng và chèn liên kết.",
+  description: "Soạn như CKEditor: Enter để xuống dòng, dùng heading, danh sách, in đậm/nghiêng, liên kết và chèn ảnh đúng vị trí trong nội dung.",
   type: "array",
-  of: [defineArrayMember({ type: "block", styles: [{ title: "Thường", value: "normal" }, { title: "Tiêu đề 2", value: "h2" }, { title: "Tiêu đề 3", value: "h3" }, { title: "Trích dẫn", value: "blockquote" }], lists: [{ title: "Danh sách đầu dòng", value: "bullet" }, { title: "Danh sách đánh số", value: "number" }], marks: { decorators: [{ title: "Đậm", value: "strong" }, { title: "Nghiêng", value: "em" }, { title: "Mã", value: "code" }], annotations: [{ name: "link", type: "object", title: "Liên kết", fields: [defineField({ name: "href", title: "URL", type: "url", validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }) }), defineField({ name: "blank", title: "Mở tab mới", type: "boolean", initialValue: false })] }] } })]
+  of: [defineArrayMember({ type: "block", styles: [{ title: "Thường", value: "normal" }, { title: "Tiêu đề 2", value: "h2" }, { title: "Tiêu đề 3", value: "h3" }, { title: "Trích dẫn", value: "blockquote" }], lists: [{ title: "Danh sách đầu dòng", value: "bullet" }, { title: "Danh sách đánh số", value: "number" }], marks: { decorators: [{ title: "Đậm", value: "strong" }, { title: "Nghiêng", value: "em" }, { title: "Mã", value: "code" }], annotations: [{ name: "link", type: "object", title: "Liên kết", fields: [defineField({ name: "href", title: "URL", type: "url", validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }) }), defineField({ name: "blank", title: "Mở tab mới", type: "boolean", initialValue: false })] }] } }), contentImageBlock]
 });
 
 export default defineConfig({
@@ -46,6 +64,10 @@ export default defineConfig({
   plugins: [structureTool({ structure: (S) => S.list().title("PANED Ninh Thuận").items([
     S.listItem().title("Thông tin doanh nghiệp").child(S.document().schemaType("siteSettings").documentId("siteSettings").title("Thông tin doanh nghiệp")),
     S.listItem().title("Trang chủ").child(S.document().schemaType("homePage").documentId("homePage").title("Trang chủ")),
+    S.listItem().title("Trang Cấu tạo").child(S.document().schemaType("servicePage").documentId("servicePage-anatomy").title("Trang Cấu tạo")),
+    S.listItem().title("Trang Quy trình").child(S.document().schemaType("servicePage").documentId("servicePage-process").title("Trang Quy trình")),
+    S.listItem().title("Trang Dự án").child(S.document().schemaType("servicePage").documentId("servicePage-projects").title("Trang Dự án")),
+    S.listItem().title("Trang Báo giá").child(S.document().schemaType("servicePage").documentId("servicePage-pricing").title("Trang Báo giá")),
     S.listItem().title("Cấu hình form tư vấn").child(S.document().schemaType("consultationFormSettings").documentId("consultationFormSettings").title("Cấu hình form tư vấn")),
     S.documentTypeListItem("legalPage").title("Trang pháp lý"),
     S.documentTypeListItem("article").title("Bài viết")
@@ -80,16 +102,26 @@ export default defineConfig({
       defineField({ name: "seoDescription", title: "SEO description", type: "text" })
     ] }),
     defineType({ name: "article", title: "Bài viết", type: "document", preview: { select: { title: "title", subtitle: "publishedAt", media: "coverImageUrl" }, prepare({ title, subtitle, media }: { title?: string; subtitle?: string; media?: string }) { return { title: title || "Bài viết chưa có tiêu đề", subtitle: subtitle ? `Xuất bản: ${new Date(subtitle).toLocaleDateString("vi-VN")}` : "Bản nháp", media: media ? createElement("img", { src: media, alt: "", style: { width: "100%", height: "100%", objectFit: "cover" } }) : undefined }; } }, fields: [
-      defineField({ name: "title", title: "Tiêu đề bài viết", type: "string", validation: (rule) => rule.required().max(140) }),
-      defineField({ name: "slug", title: "Đường dẫn bài viết", type: "slug", options: { source: "title", maxLength: 96 }, validation: (rule) => rule.required() }),
-      defineField({ name: "excerpt", title: "Tóm tắt", type: "text", rows: 3, validation: (rule) => rule.required().max(280) }),
+      defineField({ name: "title", title: "Tiêu đề bài viết", type: "string", validation: (rule) => rule.required().max(220) }),
+      defineField({ name: "slug", title: "Đường dẫn bài viết", type: "slug", options: { source: "title", maxLength: 140 }, validation: (rule) => rule.required() }),
+      defineField({ name: "excerpt", title: "Tóm tắt", type: "text", rows: 5, validation: (rule) => rule.required().max(700) }),
       defineField({ name: "tags", title: "Chủ đề", type: "array", of: [defineArrayMember({ type: "string" })], options: { layout: "tags" } }),
       defineField({ name: "featured", title: "Bài viết nổi bật", type: "boolean", initialValue: false }),
-      defineField({ name: "coverImageUrl", title: "Ảnh đại diện", description: "Dán URL ảnh hoặc chọn file để upload lên Cloudinary.", type: "string", components: { input: CloudinaryImageInput } }),
+      defineField({ name: "coverImageUrl", title: "Ảnh đại diện", description: "Dán URL ảnh trực tiếp từ bất cứ nguồn phù hợp hoặc chọn file để lưu lên Cloudinary.", type: "string", components: { input: CloudinaryImageInput } }),
       richTextField("body", "Nội dung bài viết"),
       defineField({ name: "publishedAt", title: "Ngày xuất bản", type: "datetime", initialValue: () => new Date().toISOString() }),
-      defineField({ name: "seoTitle", title: "SEO title", type: "string", validation: (rule) => rule.max(60) }),
-      defineField({ name: "seoDescription", title: "SEO description", type: "text", rows: 2, validation: (rule) => rule.max(160) })
+      defineField({ name: "seoTitle", title: "SEO title", type: "string", validation: (rule) => rule.max(120) }),
+      defineField({ name: "seoDescription", title: "SEO description", type: "text", rows: 4, validation: (rule) => rule.max(320) })
+    ] }),
+    defineType({ name: "servicePage", title: "Trang chuyên sâu", type: "document", fields: [
+      defineField({ name: "pageKey", title: "Loại trang", type: "string", readOnly: true, options: { list: [{ title: "Cấu tạo", value: "anatomy" }, { title: "Quy trình", value: "process" }, { title: "Dự án", value: "projects" }, { title: "Báo giá", value: "pricing" }] }, validation: (rule) => rule.required() }),
+      defineField({ name: "title", title: "Tiêu đề trang", type: "string", validation: (rule) => rule.required().max(220) }),
+      defineField({ name: "lead", title: "Mở đầu", type: "text", rows: 4, validation: (rule) => rule.max(900) }),
+      richTextField("body", "Nội dung trang chuyên sâu"),
+      defineField({ name: "ctaLabel", title: "Nhãn CTA", type: "string", validation: (rule) => rule.max(100) }),
+      defineField({ name: "ctaHref", title: "Liên kết CTA", type: "string", validation: (rule) => rule.max(500) }),
+      defineField({ name: "seoTitle", title: "SEO title", type: "string", validation: (rule) => rule.max(120) }),
+      defineField({ name: "seoDescription", title: "SEO description", type: "text", rows: 4, validation: (rule) => rule.max(320) })
     ] }),
     defineType({ name: "consultationFormSettings", title: "Cấu hình form tư vấn", type: "document", initialValue: { eyebrow: "Khảo sát và báo giá", heading: "Gửi diện tích, vị trí và nhu cầu sử dụng để nhận giá sơ bộ", description: "Đội ngũ sẽ tiếp nhận thông tin và phản hồi phương án phù hợp.", commitmentText: "Tư vấn sơ bộ miễn phí · Báo giá theo mặt bằng thực tế · Không ràng buộc trước khảo sát", nameLabel: "Họ tên", namePlaceholder: "Nguyễn Văn A", phoneLabel: "Số điện thoại", phonePlaceholder: "0946657257", requirementLabel: "Nhu cầu", requirementPlaceholder: "Diện tích, địa điểm, loại công trình", submitButtonText: "Nhận tư vấn", callButtonText: "Gọi tư vấn", drawingButtonText: "Gửi bản vẽ", successMessage: "Đã gửi yêu cầu tư vấn thành công.", errorMessage: "Không thể gửi yêu cầu. Vui lòng thử lại hoặc gọi trực tiếp.", validationMessage: "Vui lòng kiểm tra lại thông tin đã nhập.", isEnabled: true, enableDrawingUpload: false, enableGoogleSheets: true, enableEmailNotification: true }, preview: { select: { title: "heading", enabled: "isEnabled" }, prepare({ title, enabled }: { title?: string; enabled?: boolean }) { return { title: title || "Cấu hình form tư vấn", subtitle: enabled === false ? "Đang tắt form" : "Đang bật form" }; } }, fields: [
       defineField({ name: "eyebrow", title: "Tiêu đề nhỏ", type: "string", validation: (rule) => rule.required().max(80) }),
