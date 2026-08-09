@@ -102,7 +102,12 @@ export function ScrollTop() {
 
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("#hero");
-    if (!hero) return;
+    if (!hero) {
+      const updateVisibility = () => setShowTop(window.scrollY > 280);
+      updateVisibility();
+      window.addEventListener("scroll", updateVisibility, { passive: true });
+      return () => window.removeEventListener("scroll", updateVisibility);
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => setShowTop(!entry.isIntersecting),
@@ -177,9 +182,10 @@ export function ThemeToggle() {
 }
 
 const mobileLinks = [
-  ["Cấu tạo", "#cau-tao"],
-  ["Dự án", "#du-an"],
-  ["Báo giá", "#bao-gia"],
+  ["Cấu tạo", "/cau-tao"],
+  ["Quy trình", "/quy-trinh"],
+  ["Dự án", "/du-an"],
+  ["Báo giá", "/bao-gia"],
   ["Video", "#video-cong-trinh"],
   ["FAQ", "#faq"],
   ["Bài viết", "/bai-viet"],

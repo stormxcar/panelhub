@@ -6,13 +6,10 @@ import {
   CaretDown,
   Check,
   CheckCircle,
-  EnvelopeSimple,
   FacebookLogo,
   Factory,
   Gauge,
   HouseLine,
-  MessengerLogo,
-  Phone,
   ThermometerCold,
   TiktokLogo,
   Wrench,
@@ -21,16 +18,17 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { CostEstimator } from "../components/CostEstimator";
 import { ConsultationForm } from "../components/ConsultationForm";
+import { ContactRail } from "../components/ContactRail";
 import { FaqList } from "../components/FaqList";
 import { HeroGallery } from "../components/HeroGallery";
 import {
   LandingMotion,
   MobileNav,
-  ScrollTop,
   ThemeToggle,
 } from "../components/LandingMotion";
 import { MaterialBrands } from "../components/MaterialBrands";
 import { RichText } from "../components/RichText";
+import { SiteSearch } from "../components/SiteSearch";
 import { TestimonialsCarousel } from "../components/TestimonialsCarousel";
 import {
   PortfolioFilter,
@@ -40,6 +38,7 @@ import { VideoGallery } from "../components/VideoGallery";
 import { site } from "../lib/site";
 import {
   getConsultationFormSettings,
+  getManagedArticles,
   getManagedHome,
   getManagedSiteSettings,
 } from "../lib/sanity";
@@ -329,8 +328,8 @@ function SectionCta({ text, href = "#lien-he", label = "Nhận báo giá miễn 
 }
 
 export default async function Home() {
-  const [managedHome, managedSettings, managedConsultation] = await Promise.all(
-    [getManagedHome(), getManagedSiteSettings(), getConsultationFormSettings()],
+  const [managedHome, managedSettings, managedConsultation, managedArticles] = await Promise.all(
+    [getManagedHome(), getManagedSiteSettings(), getConsultationFormSettings(), getManagedArticles()],
   );
   const logoText = managedSettings?.logoTextUrl || site.branding.logoText;
   const logoMark = managedSettings?.logoMarkUrl || site.branding.logoMark;
@@ -349,6 +348,13 @@ export default async function Home() {
     tiktokUrl: managedSettings?.tiktokUrl || site.social.tiktok,
     mapUrl: managedSettings?.mapUrl || site.location.mapUrl,
   };
+  const searchArticles = managedArticles.map((article) => ({
+    id: `article-${article._id}`,
+    title: article.title,
+    description: article.excerpt,
+    href: `/bai-viet/${article.slug}`,
+    keywords: `${article.title} ${article.excerpt} ${(article.tags || []).join(" ")}`,
+  }));
   const footerDescription =
     managedSettings?.footerDescription ||
     managedHome?.footerDescription ||
@@ -575,47 +581,7 @@ export default async function Home() {
   return (
     <main>
       <LandingMotion />
-      <aside className="contact-rail" aria-label="Liên hệ nhanh">
-        <a
-          className="has-tooltip cta-call"
-          href={`tel:${business.phone}`}
-          aria-label="Gọi tư vấn"
-          data-tooltip="Gọi tư vấn"
-        >
-          <Phone size={22} weight="fill" />
-        </a>
-        <a
-          className="has-tooltip cta-zalo"
-          href={business.zaloUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Liên hệ qua Zalo"
-          data-tooltip="Liên hệ Zalo"
-        >
-          <span className="zalo-icon" aria-hidden="true">
-            Zalo
-          </span>
-        </a>
-        <a
-          className="has-tooltip cta-messenger"
-          href={business.messengerUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Liên hệ qua Messenger"
-          data-tooltip="Liên hệ Messenger"
-        >
-          <MessengerLogo size={22} weight="fill" />
-        </a>
-        <a
-          className="has-tooltip cta-email"
-          href={`mailto:${business.email}`}
-          aria-label="Gửi email báo giá"
-          data-tooltip="Gửi email báo giá"
-        >
-          <EnvelopeSimple size={22} weight="fill" />
-        </a>
-        <ScrollTop />
-      </aside>
+      <ContactRail />
 
       <nav className="site-nav" aria-label="Điều hướng chính">
         <a
@@ -682,6 +648,7 @@ export default async function Home() {
           </a>
         </div>
         <div className="nav-actions">
+          <SiteSearch articles={searchArticles} />
           <a
             className="nav-cta nav-tooltip"
             href={`tel:${business.phone}`}
@@ -823,6 +790,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      <SectionCta text="Xem rõ cấu tạo, đặc tính từng loại lõi và cách chọn panel phù hợp công trình." href="/cau-tao" label="Xem chi tiết cấu tạo" />
 
       <section id="quy-trinh" className="section process reveal">
         <div className="section-stack narrow">
@@ -942,6 +910,7 @@ export default async function Home() {
             </details>
           ))}
         </div>
+        <SectionCta text="Xem phạm vi từng gói, các hạng mục bao gồm và lưu ý trước khi lập báo giá theo mặt bằng." href="/bao-gia" label="Xem chi tiết báo giá" />
       </section>
 
       <section className="section comparison-table-section reveal">
