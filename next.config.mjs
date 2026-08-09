@@ -2,6 +2,24 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
+const isDevelopment = process.env.NODE_ENV !== "production";
+
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self' mailto:",
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net`,
+  "script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://res.cloudinary.com https://cdn.sanity.io https://printgo.vn https://banner2.cleanpng.com https://multipanelmexico.com https://file.hstatic.net https://encrypted-tbn0.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net",
+  "media-src 'self' blob: https://res.cloudinary.com",
+  "connect-src 'self' https://syr5q4gg.api.sanity.io https://syr5q4gg.apicdn.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net",
+  "frame-src 'self' https://googleads.g.doubleclick.net https://*.googlesyndication.com",
+  "font-src 'self' data:",
+  ...(isDevelopment ? [] : ["upgrade-insecure-requests"])
+].join("; ");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -14,7 +32,7 @@ const nextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://res.cloudinary.com https://cdn.sanity.io https://printgo.vn https://banner2.cleanpng.com https://multipanelmexico.com https://file.hstatic.net https://encrypted-tbn0.gstatic.com; media-src 'self' blob: https://res.cloudinary.com; connect-src 'self' https://syr5q4gg.api.sanity.io https://syr5q4gg.apicdn.sanity.io; font-src 'self' data:; upgrade-insecure-requests"
+            value: contentSecurityPolicy
           },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },

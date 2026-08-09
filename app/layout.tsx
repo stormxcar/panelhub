@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { RouteProgress } from "../components/RouteProgress";
 import { site } from "../lib/site";
 import { getManagedHome, getManagedSiteSettings } from "../lib/sanity";
 import "./globals.css";
@@ -46,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           strategy="afterInteractive"
         />
       </head>
-      <body className={playfair.variable}>{children}</body>
+      <body className={playfair.variable}><RouteProgress />{children}</body>
       <GoogleAnalytics gaId="G-5FEQN44JCX" />
     </html>
   );

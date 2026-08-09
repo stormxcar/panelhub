@@ -180,11 +180,13 @@ const mobileLinks = [
   ["Cấu tạo", "#cau-tao"],
   ["Dự án", "#du-an"],
   ["Báo giá", "#bao-gia"],
+  ["Video", "#video-cong-trinh"],
   ["FAQ", "#faq"],
+  ["Bài viết", "/bai-viet"],
   ["Liên hệ", "#lien-he"]
-];
+] as const;
 
-export function MobileNav() {
+export function MobileNav({ links = mobileLinks }: { links?: readonly (readonly [string, string])[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -243,7 +245,7 @@ export function MobileNav() {
       </button>
       {isOpen && (
         <nav ref={navRef} className="mobile-menu" id="mobile-menu" aria-label="Điều hướng trên điện thoại">
-          {mobileLinks.map(([label, href]) => (
+          {links.map(([label, href]) => (
             <a href={href} key={href} onClick={() => setIsOpen(false)}>{label}</a>
           ))}
         </nav>
